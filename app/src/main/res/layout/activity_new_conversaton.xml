@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:divider="@drawable/divider"
+    android:showDividers="middle"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textSize="20sp"
+        android:text="@string/To"
+        android:layout_gravity="center"
+        android:id="@+id/empty_chosen_contact_view"
+        />
+
+    <GridView
+        android:animateLayoutChanges="true"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+
+        android:columnWidth="150dp"
+        android:numColumns="auto_fit"
+        android:stretchMode="columnWidth"
+
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:clipToPadding="false"
+
+        android:horizontalSpacing="10dp"
+        android:verticalSpacing="3dp"
+        android:layout_gravity="center"
+
+        android:scrollbarStyle="outsideInset"
+        android:id="@+id/gridView"
+        />
+
+    <LinearLayout
+         android:background="@color/themePrimary"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:orientation="horizontal"
+         android:focusableInTouchMode="true">
+
+        <EditText
+            android:id="@+id/search"
+            android:layout_gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:hint="@string/Name_Number"
+            android:textColorHint="@color/white"
+
+            android:textColor="@color/white"
+            android:singleLine="true"
+            android:textCursorDrawable="@null"
+            android:padding="10dp"
+
+            android:background="@color/transparent"
+            android:layout_height="wrap_content"/>
+         
+         <Button
+             android:id="@+id/remove_text_button"
+             android:layout_width="45dp"
+             android:layout_height="45dp"
+             android:background="@mipmap/ic_x"
+             android:visibility="gone"
+             />
+
+        <ToggleButton
+            android:id="@+id/change_enter_mode"
+            android:layout_height="45dp"
+            android:layout_width="45dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+
+            android:checked="true"
+            android:textOn=""
+            android:textOff=""
+            android:background="@drawable/keyboard_mode_toggle"
+           />
+
+         <ImageButton
+             android:id="@+id/get_contact"
+             android:layout_height="45dp"
+             android:layout_width="45dp"
+             android:gravity="center"
+             android:layout_gravity="center"
+             android:background="@mipmap/ic_person_add"
+             android:contentDescription="@string/add_contact_from_external"/>
+     </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="horizontal"
+        android:background="@color/theme_gray_white"
+        android:id="@+id/unknown_contact"
+        android:padding="10dp">
+
+        <TextView
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/theme_grey"
+            android:text="@string/send_to"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/theme_grey"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+            android:id="@+id/unknown_contact_num"
+            />
+    </LinearLayout>
+
+    <ListView
+        android:animateLayoutChanges="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:choiceMode="none"
+        android:id="@+id/contacts_list"
+        android:fastScrollEnabled="true"
+        />
+
+</LinearLayout>

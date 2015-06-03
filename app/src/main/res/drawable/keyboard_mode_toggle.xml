@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:exitFadeDuration="100"
+    android:enterFadeDuration="100"
+
+    >
+    <item
+        android:drawable="@mipmap/ic_keyboard"
+        android:state_checked="true" />
+    <item
+        android:drawable="@mipmap/ic_dial_pad"
+        android:state_checked="false" />
+
+
+</selector>

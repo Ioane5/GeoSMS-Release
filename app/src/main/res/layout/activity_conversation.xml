@@ -1,0 +1,103 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.steps.geosms.conversation.ConversationActivity"
+    android:orientation="vertical"
+    android:focusableInTouchMode="true"
+    android:background="@color/conversations_list"
+    android:id="@+id/conversation_activity"
+    android:divider="@drawable/divider"
+    android:showDividers="middle"
+    >
+
+    <QuickContactBadge
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/quick_contact"/>
+
+    <ListView
+        android:scrollbarStyle="insideOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/conversation_list_view"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:stackFromBottom="true"
+        android:transcriptMode="normal"
+        android:choiceMode="multipleChoiceModal"
+        />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:padding="1dip"
+        android:orientation="horizontal" >
+
+        <ToggleButton
+            android:layout_height="35dp"
+            android:layout_width="35dp"
+            android:layout_gravity="top"
+            android:textOff=""
+            android:textOn=""
+            android:background="@drawable/web_toggle_button"
+            android:id="@+id/use_web_toggle_button"/>
+
+        <LinearLayout
+            android:layout_gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+        <EditText
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+
+            android:layout_marginTop="7dp"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp"
+            android:layout_gravity="center"
+
+            android:scrollbars="vertical"
+            android:inputType="textShortMessage|textMultiLine"
+            android:singleLine="false"
+            android:maxLines="5"
+            android:hint="@string/edit_text_hint"
+            android:textColorHint="@color/themePrimary"
+            android:background="#ffffffff"
+            android:imeOptions="flagNoExtractUi"
+            android:focusableInTouchMode="true"
+            android:id="@+id/enter_message_edit_text"/>
+
+            <TextView
+                android:layout_gravity="end"
+                android:textSize="9sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/symbol_counter"/>
+        </LinearLayout>
+
+        <ImageButton
+            android:layout_gravity="top"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+
+            android:layout_marginStart="7dp"
+            android:layout_marginLeft="7dp"
+            android:scaleType="fitCenter"
+            android:clickable="true"
+            android:background="@drawable/send_button"
+            android:src="@mipmap/ic_send"
+            android:id="@+id/send_button"
+            android:contentDescription="@string/send_button" />
+    </LinearLayout>
+
+
+
+</LinearLayout>

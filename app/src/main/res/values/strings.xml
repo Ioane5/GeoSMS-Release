@@ -1,0 +1,72 @@
+<resources>
+    <string name="app_name">GeoSms</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_conversation">ConversationActivity</string>
+    <string name="edit_text_hint">Enter a message here</string>
+    <string name="main_title"><b>Geo SMS</b></string>
+    <string name="set_default_app">Set as default SMS app</string>
+    <string name="set_default_app_to_send"><i>To send, set as default SMS app</i></string>
+    <string name="sms_default_success"><b>Thanks for making right decision</b></string>
+    <string name="sms_default_fail">;((</string>
+    <string name="websms_not_found">your websms account not found</string>
+    <string name="websms_unable_login">Unable to login, please check your password</string>
+    <string name="pref_enable_websms">Enable Web SMS</string>
+    <string name="pref_websms_clients">Web Sms Client</string>
+    <string name="summary">password</string>
+    <string name="title_activity_test">TestActivity</string>
+    <string name="menu_delete">Delete</string>
+    <string name="delete_warning_msg_single">Delete this conversation?</string>
+    <string name="delete_warning_msg_plural">Delete these conversations?</string>
+    <string name="warning">Warning</string>
+    <string name="geosms_unread_sms">Unread Sms messages</string>
+    <string name="unread_sms_content_format" formatted="false"><b>(%d)</b>%s</string>
+    <string name="title_activity_settings_test">SettingsTestActivity</string>
+
+    <string name="websms_settings">WebSms</string>
+    <string name="title_activity_new_conversation">New Message</string>
+
+    <string name="sms_failed"><i>failed</i></string>
+    <string name="sms_pending"><i>pending</i></string>
+    <string name="sms_draft"><i>draft</i></string>
+
+    <string name="send_button">Send Button</string>
+
+    <string name="favorites">Favorites</string>
+    <string name="all">All</string>
+
+    <string name="me">me</string>
+    <string name="action_call">Call</string>
+    <string name="To">To...</string>
+    <string name="choose_contacts">Choose Contacts...</string>
+    <string name="change_keyboard_mode">Change Keyboard mode</string>
+    <string name="start_conversation">Start Conversation</string>
+
+    <string name="remove_request">Remove this contact?</string>
+    <string name="cancel">Cancel</string>
+    <string name="remove">Remove</string>
+    <string name="Name_Number"><i>Enter Name or Number</i></string>
+    <string name="add_contact_from_external">Add contact from contact picker</string>
+    <string name="send_to">Sms to</string>
+    <string name="contact">contact</string>
+    <string name="request_delivery">Request Delivery</string>
+    <string name="sending">Sending</string>
+    <string name="websms_pref_category">WebSms</string>
+    <string name="sending_pref_category">Sending</string>
+    <string name="sms_delivered">✓ delivered</string>
+    <string name="open_source_licenses">Open source licenses</string>
+    <string name="undo">undo</string>
+    <string name="conversations_deleted">conversations deleted</string>
+    <string name="selected">selected</string>
+    <string name="send_as_new">Send as new</string>
+    <string name="copy">Copy</string>
+    <string name="details">Details</string>
+    <string name="info">Info</string>
+    <string name="people">People</string>
+    <string name="title_activity_conversation_peope">ConversationPeopeActivity</string>
+    <string name="people_in_this_conversation">People in this Conversation</string>
+    <string name="image">Image</string>
+    <string name="sms_sending_faild">Sms sending failed</string>
+
+</resources>

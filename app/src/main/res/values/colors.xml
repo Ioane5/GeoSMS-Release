@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="blue" type="color">#FF33B5E5</item>
+    <item name="purple" type="color">#FFAA66CC</item>
+    <item name="green" type="color">#FF99CC00</item>
+    <item name="orange" type="color">#FFFFBB33</item>
+    <item name="red" type="color">#FFFF4444</item>
+    <item name="darkblue" type="color">#FF0099CC</item>
+    <item name="darkpurple" type="color">#FF9933CC</item>
+    <item name="darkgreen" type="color">#FF669900</item>
+    <item name="darkorange" type="color">#FFFF8800</item>
+    <item name="darkred" type="color">#FFCC0000</item>
+    <item name="black" type="color">#ff000000</item>
+
+    <item name="theme_green" type="color">#ff44cc0a</item>
+    <item name="conversation_list_color" type="color">#ff4e4e4e</item>
+    <item name="white" type="color">#ffffff</item>
+
+    <item name="theme_light_gray1" type="color">#ffcecece</item>
+    <item name="theme_light_gray2" type="color">#ffe7e7e7</item>
+    <item name="theme_gray_white" type="color">#fffafafa</item>
+
+    <item name="conversation_user_name" type="color">@color/theme_msg_color</item>
+    <item name="conversation_last_msg" type="color">@color/theme_msg_color</item>
+    <item name="conversation_date" type="color">#808080</item>
+
+
+    <item name="theme_msg_color" type="color">#ff4e4e4e</item>
+    <item name="themePrimary" type="color">#0091EA</item>
+    <item name="themeAccent" type="color">#FBC02D</item>
+    <item name="themePrimaryDark" type="color">#1565C0</item>
+
+    <item name="themeLight" type="color">#90CAF9</item>
+    <item name="themeLight2" type="color">#FFF59D</item>
+    <item name="themeLightExtra" type="color">#E3F2FD</item>
+
+    <color name="theme_grey">#ffa4a4a4</color>
+    <color name="transparent_gray">#c9676767</color>
+    <item name="conversations_list" type="color">@color/white</item>
+
+    <color name="transparent" type="color">#00000000</color>
+    <color name="themeAccent2">#fff9c4</color>
+    <color name="theme_transparent_red">#37ff5722</color>
+    <color name="theme_red">#ffff5722</color>
+
+
+    <integer-array name="androidcolors">
+        <item>@color/blue</item>
+        <item>@color/purple</item>
+        <item>@color/green</item>
+        <item>@color/orange</item>
+        <item>@color/red</item>
+        <item>@color/darkblue</item>
+        <item>@color/darkpurple</item>
+        <item>@color/darkgreen</item>
+        <item>@color/darkorange</item>
+        <item>@color/darkred</item>
+    </integer-array>
+
+</resources>

@@ -1,0 +1,18 @@
+<resources>
+    <string name="title_activity_settings">Settings</string>
+
+
+    <string name="pref_websms_username">Username</string>
+    <string name="pref_websms_password">Password</string>
+
+
+    <string-array name="pref_web_sms_client_list_titles">
+        <item>Magtifun</item>
+        <item>None</item>
+    </string-array>
+    <string-array name="pref_web_sms_client_list_values">
+        <item>1</item>
+        <item>-1</item>
+    </string-array>
+
+</resources>

@@ -68,5 +68,7 @@
     <string name="people_in_this_conversation">People in this Conversation</string>
     <string name="image">Image</string>
     <string name="sms_sending_faild">Sms sending failed</string>
+    <string name="general_pref_category">General</string>
+    <string name="notifications">Notifications</string>
 
 </resources>

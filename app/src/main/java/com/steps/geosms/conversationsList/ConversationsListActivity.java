@@ -93,7 +93,7 @@ public class ConversationsListActivity extends MyActivity implements AdapterView
 
     private void defaultAppResolve() {
 
-        if (!Utils.isDefaultSmsApp(getBaseContext())) {
+        if (!Utils.isDefaultSmsApp(getApplicationContext())) {
             Log.d(TAG, "not default app");
             // App is not default.
             // Show the "not currently set as the default SMS app" interface

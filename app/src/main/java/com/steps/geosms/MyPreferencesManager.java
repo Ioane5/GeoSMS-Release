@@ -24,10 +24,11 @@ public class MyPreferencesManager {
     public static int GEOCELL_ID = 191;
 
     public static String DELIVERY_REQUEST = "request_delivery";
-
+    public static String NOTIFICATIONS = "notifications";
 
 
     private static String WEB_PREFS = "WEB_SMS_PREFS";
+    private static String WEB_SMS_ENABLED = "enable_websms";
 
     public static SharedPreferences getWebSmsPreferences(Context ctx){
         //return (ctx.getApplicationContext()).getSharedPreferences(WEB_PREFS,Context.MODE_PRIVATE);
@@ -54,7 +55,7 @@ public class MyPreferencesManager {
         return null;
     }
 
-    public static void saveCookie(Context context,String cookie){
+    public static void saveCookie(Context context,String cookie) {
         SharedPreferences.Editor editor = getWebSmsPreferences(context).edit();
         editor.putString(WEBSMS_COOKIE,cookie);
         editor.commit();
@@ -64,4 +65,15 @@ public class MyPreferencesManager {
         return PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext())
                 .getBoolean(DELIVERY_REQUEST,false);
     }
+
+    public static boolean isNotificationOn(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext())
+                .getBoolean(NOTIFICATIONS,true);
+    }
+
+    public static boolean isWebSmsEnabled(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext())
+                .getBoolean(WEB_SMS_ENABLED,true);
+    }
+
 }

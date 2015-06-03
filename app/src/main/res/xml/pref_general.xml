@@ -9,6 +9,7 @@
         android:defaultValue="true" />
 
         <ListPreference
+            android:dependency="enable_websms"
             android:key="websms_name"
             android:title="@string/pref_websms_clients"
             android:defaultValue="-1"
@@ -19,6 +20,7 @@
             />
 
         <EditTextPreference
+            android:dependency="enable_websms"
             android:key="websms_username"
             android:title="@string/pref_websms_username"
             android:selectAllOnFocus="true"
@@ -28,6 +30,7 @@
             android:maxLines="1" />
 
         <EditTextPreference
+            android:dependency="enable_websms"
             android:key="websms_password"
             android:title="@string/pref_websms_password"
             android:selectAllOnFocus="true"
@@ -47,6 +50,19 @@
             />
 
     </PreferenceCategory>
+
+
+    <PreferenceCategory
+        android:title="@string/general_pref_category">
+
+        <CheckBoxPreference
+            android:key="notifications"
+            android:title="@string/notifications"
+            android:defaultValue="true"
+            />
+
+    </PreferenceCategory>
+
 
     <Preference
         android:title="@string/open_source_licenses"

@@ -2,15 +2,19 @@ package com.steps.geosms.conversation;
 
 import android.app.LoaderManager;
 import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.Loader;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -39,6 +43,7 @@ import android.widget.ToggleButton;
 
 import com.ioane.sharvadze.geosms.R;
 import com.steps.geosms.GeoSmsManager;
+import com.steps.geosms.MyPreferencesManager;
 import com.steps.geosms.broadcastReceivers.SmsDispatcher;
 import com.steps.geosms.objects.Contact;
 import com.steps.geosms.objects.Conversation;
@@ -65,8 +70,9 @@ public class ConversationActivity extends MyActivity implements LoaderManager.Lo
     private ArrayList<Contact> contacts;
 
     private static boolean isKeyboardVisible = false;
-
     private GeoSmsManager smsManager;
+    private BroadcastReceiver mNetworkChangeListener;
+    private IntentFilter mNetworkIntentFilter;
 
     /** If user changed toggle, we set as true */
     private boolean userChangedWebToggle = false;
@@ -135,6 +141,20 @@ public class ConversationActivity extends MyActivity implements LoaderManager.Lo
                 }
             });
         }
+        mNetworkChangeListener = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                ConnectivityManager cm = (ConnectivityManager) context.getSystemService( Context.CONNECTIVITY_SERVICE );
+                NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+                boolean isConnected = activeNetwork != null &&
+                        activeNetwork.isConnectedOrConnecting();
+                if(isConnected){
+                    webUseToggle.setEnabled(true);
+                }else
+                    webUseToggle.setEnabled(false);
+            }
+        };
+        mNetworkIntentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
         initCab();
         initKeyboardListener();
         startLoader();
@@ -207,8 +227,10 @@ public class ConversationActivity extends MyActivity implements LoaderManager.Lo
                         clipboardManager.setPrimaryClip(clip);
                         break;
                     case R.id.action_send_as_new:
-                        for (SMS sms : smsList)
+                        for (SMS sms : smsList){
+                            sms.setDate(new Date());
                             sendMessage(sms);
+                        }
                         break;
                     case R.id.action_details:
                         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(ConversationActivity.this);
@@ -274,8 +296,14 @@ public class ConversationActivity extends MyActivity implements LoaderManager.Lo
     @Override
     protected void onResume() {
         super.onResume();
+        if(!MyPreferencesManager.isWebSmsEnabled(getBaseContext())){
+            webUseToggle.setVisibility(View.GONE);
+        }else {
+            webUseToggle.setVisibility(View.VISIBLE);
+        }
+        registerReceiver(mNetworkChangeListener,mNetworkIntentFilter);
         if(contacts == null){
-            Log.w(TAG,"contact is null");
+            Log.w(TAG, "contact is null");
             return;
         }
         SmsDispatcher.updateThreadId(thread_id);
@@ -291,6 +319,7 @@ public class ConversationActivity extends MyActivity implements LoaderManager.Lo
     @Override
     protected void onPause() {
         super.onPause();
+        unregisterReceiver(mNetworkChangeListener);
         SmsDispatcher.updateThreadId(SmsDispatcher.THREAD_ID_NONE);
     }
 
@@ -407,7 +436,9 @@ public class ConversationActivity extends MyActivity implements LoaderManager.Lo
 
 
     private boolean isSendWeb(){
-        return webUseToggle.isChecked();
+        return webUseToggle.isChecked()
+                && webUseToggle.getVisibility() == View.VISIBLE
+                && webUseToggle.isEnabled();
     }
 
     private void sendMessage(SMS sms){

@@ -14,6 +14,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.ioane.sharvadze.geosms.R;
+import com.steps.geosms.utils.Utils;
 
 
 public class SettingsActivity extends AppCompatActivity {
@@ -90,6 +91,10 @@ public class SettingsActivity extends AppCompatActivity {
                     return true;
                 }
             });
+
+            Preference notifications = getPreferenceManager().findPreference("notifications");
+            if(!Utils.isDefaultSmsApp(getActivity().getApplicationContext()))
+                notifications.setEnabled(false);
 
             MyPreferencesManager.getWebSmsPreferences(getActivity().getBaseContext()).
                     registerOnSharedPreferenceChangeListener(this);

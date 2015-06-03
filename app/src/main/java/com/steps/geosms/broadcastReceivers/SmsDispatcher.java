@@ -14,6 +14,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.steps.geosms.MyNotificationManager;
+import com.steps.geosms.MyPreferencesManager;
 import com.steps.geosms.objects.Contact;
 import com.steps.geosms.objects.Conversation;
 import com.steps.geosms.objects.SMS;
@@ -51,6 +52,8 @@ public class SmsDispatcher extends BroadcastReceiver {
         currentThreadId = threadId;
     }
 
+    private static boolean mIsNotificationsOn = true;
+
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
@@ -63,6 +66,12 @@ public class SmsDispatcher extends BroadcastReceiver {
             Log.i(TAG,"action dismissed " +action);
             return;
         }
+
+        mIsNotificationsOn = MyPreferencesManager.isNotificationOn(context);
+
+        if(Build.VERSION.SDK_INT < 19 && !mIsNotificationsOn)
+            return;
+
 
         if(action.equals(Constants.Actions.SMS_DELIVERED)){
             handleSmsDelivered(context, intent);
@@ -103,24 +112,26 @@ public class SmsDispatcher extends BroadcastReceiver {
         long threadId = Conversation.getOrCreateThreadId(ctx, contact.getAddress());
 
         SMS sms = new SMS(values);
-        // If user isn't on this conversation, we notify
-        if(threadId !=  currentThreadId || threadId == THREAD_ID_NONE){
-            NotificationManager mNotificationManager =
-                    (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
-            // mId allows you to update the notification later on.
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(ctx);
-            boolean isSummary =  MyNotificationManager.buildSmsReceiveNotification(ctx, contact, sms, builder);
+        if(mIsNotificationsOn){
+            // If user isn't on this conversation, we notify
+            if(threadId !=  currentThreadId || threadId == THREAD_ID_NONE){
+                NotificationManager mNotificationManager =
+                        (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
+                // mId allows you to update the notification later on.
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(ctx);
+                boolean isSummary =  MyNotificationManager.buildSmsReceiveNotification(ctx, contact, sms, builder);
 
-            int notif_id = isSummary ? MyNotificationManager.ID_SMS_RECEIVED : (int)threadId;
-            mNotificationManager.notify(notif_id, builder.build());
-        }else {
-            // if user is on this chat , make no notification , just slight vibration
-            values = new ContentValues();
-            values.put(Constants.MESSAGE.READ, 1); // is read
-            // update message as read.
-            ctx.getContentResolver().update(smsUri, values,null,null);
-            Vibrator v = (Vibrator) ctx.getSystemService(Context.VIBRATOR_SERVICE);
-            v.vibrate(VIBRATE_LENGTH);
+                int notif_id = isSummary ? MyNotificationManager.ID_SMS_RECEIVED : (int)threadId;
+                mNotificationManager.notify(notif_id, builder.build());
+            }else {
+                // if user is on this chat , make no notification , just slight vibration
+                values = new ContentValues();
+                values.put(Constants.MESSAGE.READ, 1); // is read
+                // update message as read.
+                ctx.getContentResolver().update(smsUri, values,null,null);
+                Vibrator v = (Vibrator) ctx.getSystemService(Context.VIBRATOR_SERVICE);
+                v.vibrate(VIBRATE_LENGTH);
+            }
         }
     }
 
@@ -164,18 +175,19 @@ public class SmsDispatcher extends BroadcastReceiver {
                 break;
             default:
                 values.put(Constants.MESSAGE.TYPE,Constants.MESSAGE.MESSAGE_TYPE_FAILED);
-                NotificationManager mNotificationManager =
-                        (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
+                if(mIsNotificationsOn){
+                    NotificationManager mNotificationManager =
+                            (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
 
-                if(address == null){
-                    Log.e(TAG,"address was null, SMS_FAILED");
+                    if(address == null){
+                        Log.e(TAG,"address was null, SMS_FAILED");
+                    }
+                    if(currentThreadId != threadId){
+                        NotificationCompat.Builder builder = new NotificationCompat.Builder(ctx);
+                        MyNotificationManager.buildSmsFailed(ctx, address, builder);
+                        mNotificationManager.notify(MyNotificationManager.ID_SMS_FAILED, builder.build());
+                    }
                 }
-                if(currentThreadId != threadId){
-                    NotificationCompat.Builder builder = new NotificationCompat.Builder(ctx);
-                    MyNotificationManager.buildSmsFailed(ctx, address, builder);
-                    mNotificationManager.notify(MyNotificationManager.ID_SMS_FAILED, builder.build());
-                }
-
                 Log.d(TAG,"Message sending failed result Code :" + getResultCode());
         }
         try{

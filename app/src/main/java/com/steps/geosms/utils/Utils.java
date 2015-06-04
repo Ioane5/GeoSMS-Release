@@ -244,7 +244,12 @@ public class Utils {
             // get image from filesystem
             InputStream input = context.getContentResolver().openInputStream(Uri.parse(photoURI));
 
-            return Bitmap.createScaledBitmap(BitmapFactory.decodeStream(input, null, null),size,size,true);
+            Bitmap bitmap = BitmapFactory.decodeStream(input, null, null);
+            Bitmap scaled =  Bitmap.createScaledBitmap(bitmap,size,size,true);
+
+            bitmap.recycle();
+            System.gc();
+            return scaled;
         } catch (Exception e) {
             e.printStackTrace();
         }

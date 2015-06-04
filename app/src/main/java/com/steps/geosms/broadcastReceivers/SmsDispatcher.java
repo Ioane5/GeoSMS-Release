@@ -57,7 +57,7 @@ public class SmsDispatcher extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
-        Log.i(TAG,"onReceive() :" + action);
+        Log.i(TAG, "onReceive() :" + action);
 
 
         if(action == null) return;
@@ -68,10 +68,6 @@ public class SmsDispatcher extends BroadcastReceiver {
         }
 
         mIsNotificationsOn = MyPreferencesManager.isNotificationOn(context);
-
-        if(Build.VERSION.SDK_INT < 19 && !mIsNotificationsOn)
-            return;
-
 
         if(action.equals(Constants.Actions.SMS_DELIVERED)){
             handleSmsDelivered(context, intent);
@@ -95,17 +91,20 @@ public class SmsDispatcher extends BroadcastReceiver {
     }
 
     private void handleSmsReceive(Context ctx,Intent intent){
+        if(Build.VERSION.SDK_INT < 19)
+            abortBroadcast();
+
         Bundle bundle = intent.getExtras();
         if(bundle == null){
             Log.w(TAG,"bundle is empty");
             return;
         }
-        Log.i(TAG,"sms received");
 
         ContentValues values = SMS.getContentValuesFromBundle(bundle);
         if(values == null)
             return;
-        Uri smsUri = ctx.getContentResolver().insert(Uri.parse("content://sms/"), values);
+        Uri smsUri = null;
+        smsUri = ctx.getContentResolver().insert(Uri.parse("content://sms/"), values);
 
         String address = values.getAsString(Constants.ADDRESS);
         Contact contact = new Contact(ctx,address);

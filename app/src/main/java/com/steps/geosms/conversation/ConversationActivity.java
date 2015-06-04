@@ -72,7 +72,6 @@ public class ConversationActivity extends MyActivity implements LoaderManager.Lo
     private static boolean isKeyboardVisible = false;
     private GeoSmsManager smsManager;
     private BroadcastReceiver mNetworkChangeListener;
-    private IntentFilter mNetworkIntentFilter;
 
     /** If user changed toggle, we set as true */
     private boolean userChangedWebToggle = false;
@@ -154,7 +153,6 @@ public class ConversationActivity extends MyActivity implements LoaderManager.Lo
                     webUseToggle.setEnabled(false);
             }
         };
-        mNetworkIntentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
         initCab();
         initKeyboardListener();
         startLoader();
@@ -292,16 +290,29 @@ public class ConversationActivity extends MyActivity implements LoaderManager.Lo
         mNotificationManager.cancel((int) thread_id);
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Log.i(TAG,"vamowmeb");
+        if(intent.getExtras() != null && intent.getSerializableExtra(Constants.CONTACT_DATA) != null){
+            Log.i(TAG,"WOOOOW SOLVED");
+        }else{
+            Log.i(TAG,"chemi pexebi");
+        }
+        setIntent(intent);
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
+        if(mNetworkChangeListener != null)
+            registerReceiver(mNetworkChangeListener, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
+
         if(!MyPreferencesManager.isWebSmsEnabled(getBaseContext())){
             webUseToggle.setVisibility(View.GONE);
         }else {
             webUseToggle.setVisibility(View.VISIBLE);
         }
-        registerReceiver(mNetworkChangeListener,mNetworkIntentFilter);
         if(contacts == null){
             Log.w(TAG, "contact is null");
             return;
@@ -319,7 +330,8 @@ public class ConversationActivity extends MyActivity implements LoaderManager.Lo
     @Override
     protected void onPause() {
         super.onPause();
-        unregisterReceiver(mNetworkChangeListener);
+        if(mNetworkChangeListener != null)
+            unregisterReceiver(mNetworkChangeListener);
         SmsDispatcher.updateThreadId(SmsDispatcher.THREAD_ID_NONE);
     }
 

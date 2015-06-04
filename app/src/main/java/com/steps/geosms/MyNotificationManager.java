@@ -25,6 +25,7 @@ import com.steps.geosms.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 /**
  * Class managing Notifications.
@@ -42,9 +43,6 @@ public class MyNotificationManager extends BroadcastReceiver{
     public static final int ID_SMS_RECEIVED = 1231321;
 
     public static final int ID_SMS_FAILED = 1222322;
-
-    // TODO THIS SHOULDN'T BE STATIC
-    private static HashMap<Pair<String,String>,Integer> receivedMessages =  new HashMap<>();
 
     public static void buildSmsReceiveUsualNotif(Context ctx,Contact contact,SMS sms,NotificationCompat.Builder mBuilder){
         Bitmap photo;
@@ -67,13 +65,16 @@ public class MyNotificationManager extends BroadcastReceiver{
         ArrayList<Contact> data = new ArrayList<>(1);
         data.add(contact);
         resultIntent.putExtra(Constants.CONTACT_DATA, data);
+        resultIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(ctx);
         stackBuilder.addParentStack(ConversationActivity.class);
         stackBuilder.addNextIntent(resultIntent);
+
+        int dummyuniqueInt = new Random().nextInt(543254);
         PendingIntent resultPendingIntent =
                 stackBuilder.getPendingIntent(
-                        0,
+                        dummyuniqueInt,
                         PendingIntent.FLAG_UPDATE_CURRENT
                 );
 
@@ -91,11 +92,6 @@ public class MyNotificationManager extends BroadcastReceiver{
 
         StringBuilder contentText = new StringBuilder();
         CharSequence format = ctx.getText(R.string.unread_sms_content_format);
-        for(Pair<String,String> contact: receivedMessages.keySet()){
-            int numReceived = receivedMessages.get(contact);
-            String name = contact.first != null ? contact.first : contact.second;
-            contentText.append(String.format(format.toString(), numReceived, name));
-        }
 
                     mBuilder.setLargeIcon(photo)
                         .setSmallIcon(android.R.drawable.stat_notify_chat)
@@ -105,11 +101,12 @@ public class MyNotificationManager extends BroadcastReceiver{
                         .setAutoCancel(true)
                         .setGroup(GROUP)
                         .setGroupSummary(true)
-                        .setNumber(receivedMessages.size());
+                        .setNumber(1);
 
         setPriority(mBuilder);
 
         Intent resultIntent = new Intent(ctx, ConversationsListActivity.class);
+        resultIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(ctx);
         stackBuilder.addParentStack(ConversationsListActivity.class);
@@ -139,14 +136,8 @@ public class MyNotificationManager extends BroadcastReceiver{
      */
     public static boolean buildSmsReceiveNotification(Context ctx,Contact contact,SMS sms,NotificationCompat.Builder mBuilder){
         // one more notification will be seen
-        Pair<String,String> contactInfo = new Pair<>(contact.getName(),contact.getAddress());
-        if(receivedMessages.containsKey(contactInfo)){
-            receivedMessages.put(contactInfo, receivedMessages.get(contactInfo)+1);
-        }else {
-            receivedMessages.put(contactInfo, 1);
-        }
 
-        if(receivedMessages.size() > 1){
+        if(false){
             // create and return summary notification.
             buildSmsReceiveSummaryNotif(ctx, sms,mBuilder);
             return true;
@@ -186,7 +177,6 @@ public class MyNotificationManager extends BroadcastReceiver{
 
     public static void clearNotifications(Context ctx){
         // TODO CLEAR FAILED SMS MESSAGES
-        receivedMessages.clear();
         NotificationManager mNotificationManager =
                 (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancel(ID_SMS_RECEIVED);
@@ -201,10 +191,8 @@ public class MyNotificationManager extends BroadcastReceiver{
         if(action.equals(Constants.Actions.RECEIVED_NOTIFICATION_DISMISSED)){
             if(intent.getBooleanExtra(IS_SUMMARY,false)){
                 // if summary was dismissed we clear all.
-                receivedMessages.clear();
             }else{
                 Contact contact = new Contact(intent.getBundleExtra(Constants.CONTACT_BUNDLE));
-                receivedMessages.remove(new Pair<>(contact.getName(),contact.getAddress()));
             }
         }else if(action.equals(Constants.Actions.FAILED_NOTIFICATION_DISMISSED)){
             // TODO add failed notification

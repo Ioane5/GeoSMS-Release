@@ -67,8 +67,6 @@ public class ConversationsListActivity extends MyActivity implements AdapterView
         super.onCreate(savedInstanceState);
         setTitle(R.string.main_title);
         setContentView(R.layout.activity_conversations_list);
-        // if it's default app , it changes layout.
-        defaultAppResolve();
 
         ArrayList<Conversation> conversations = Utils.loadConversationsFromCache(getBaseContext());
         if(conversations == null) conversations = new ArrayList<>();
@@ -86,10 +84,16 @@ public class ConversationsListActivity extends MyActivity implements AdapterView
         fab = (FloatingActionButton) findViewById(R.id.fab);
 
         MyNotificationManager.clearNotifications(getBaseContext());
-
+        MyNotificationManager.setNumUnreadMessages(this,0);
         getLoaderManager().initLoader(0, null, this);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // if it's default app , it changes layout.
+        defaultAppResolve();
+    }
 
     private void defaultAppResolve() {
 

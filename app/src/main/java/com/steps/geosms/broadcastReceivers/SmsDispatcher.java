@@ -120,8 +120,8 @@ public class SmsDispatcher extends BroadcastReceiver {
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(ctx);
                 boolean isSummary =  MyNotificationManager.buildSmsReceiveNotification(ctx, contact, sms, builder);
 
-                int notif_id = isSummary ? MyNotificationManager.ID_SMS_RECEIVED : (int)threadId;
-                mNotificationManager.notify(notif_id, builder.build());
+                //int notif_id = isSummary ? MyNotificationManager.ID_SMS_RECEIVED : (int)threadId;
+                mNotificationManager.notify(MyNotificationManager.ID_SMS_RECEIVED, builder.build());
             }else {
                 // if user is on this chat , make no notification , just slight vibration
                 values = new ContentValues();

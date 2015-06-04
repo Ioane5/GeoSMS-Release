@@ -7,11 +7,13 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.text.Editable;
 import android.util.Log;
 import android.util.Pair;
 
@@ -44,6 +46,8 @@ public class MyNotificationManager extends BroadcastReceiver{
 
     public static final int ID_SMS_FAILED = 1222322;
 
+    private static final String UNREAD_MSG_COUNT = "unread_count";
+
     public static void buildSmsReceiveUsualNotif(Context ctx,Contact contact,SMS sms,NotificationCompat.Builder mBuilder){
         Bitmap photo;
         if(contact.getPhotoUri() == null){
@@ -71,10 +75,10 @@ public class MyNotificationManager extends BroadcastReceiver{
         stackBuilder.addParentStack(ConversationActivity.class);
         stackBuilder.addNextIntent(resultIntent);
 
-        int dummyuniqueInt = new Random().nextInt(543254);
+        int uniqueInt = new Random().nextInt(Integer.MAX_VALUE);
         PendingIntent resultPendingIntent =
                 stackBuilder.getPendingIntent(
-                        dummyuniqueInt,
+                        uniqueInt,
                         PendingIntent.FLAG_UPDATE_CURRENT
                 );
 
@@ -86,23 +90,20 @@ public class MyNotificationManager extends BroadcastReceiver{
         mBuilder.setDeleteIntent(PendingIntent.getBroadcast(ctx,0,dismissedPI,0));
     }
 
-    public static void buildSmsReceiveSummaryNotif(Context ctx,SMS sms,NotificationCompat.Builder mBuilder){
+    public static void buildSmsReceiveSummaryNotif(Context ctx,SMS sms,NotificationCompat.Builder mBuilder,int numUnread){
 
         Bitmap photo = BitmapFactory.decodeResource(ctx.getResources(),android.R.drawable.stat_notify_chat);
 
-        StringBuilder contentText = new StringBuilder();
-        CharSequence format = ctx.getText(R.string.unread_sms_content_format);
+        String format = ctx.getString(R.string.unread_sms_content_format);
 
                     mBuilder.setLargeIcon(photo)
                         .setSmallIcon(android.R.drawable.stat_notify_chat)
                         .setContentTitle(ctx.getText(R.string.geosms_unread_sms))
-                        .setContentText(contentText.toString())
+                        .setContentText(String.format(format, numUnread))
                         .setDefaults(Notification.DEFAULT_ALL)
                         .setAutoCancel(true)
                         .setGroup(GROUP)
-                        .setGroupSummary(true)
-                        .setNumber(1);
-
+                        .setGroupSummary(true);
         setPriority(mBuilder);
 
         Intent resultIntent = new Intent(ctx, ConversationsListActivity.class);
@@ -126,6 +127,20 @@ public class MyNotificationManager extends BroadcastReceiver{
 
     }
 
+    public static int getNumUnreadMessages(Context context){
+        SharedPreferences prefs = context.getApplicationContext()
+                .getSharedPreferences(TAG, Context.MODE_PRIVATE);
+        return prefs.getInt(UNREAD_MSG_COUNT,0);
+    }
+
+    public static void setNumUnreadMessages(Context context,int num){
+        SharedPreferences prefs = context.getApplicationContext()
+                .getSharedPreferences(TAG, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(UNREAD_MSG_COUNT,num);
+        editor.commit();
+    }
+
     /**
      *
      * @param ctx Context of activity
@@ -137,9 +152,12 @@ public class MyNotificationManager extends BroadcastReceiver{
     public static boolean buildSmsReceiveNotification(Context ctx,Contact contact,SMS sms,NotificationCompat.Builder mBuilder){
         // one more notification will be seen
 
-        if(false){
+        int numUnread = getNumUnreadMessages(ctx);
+        setNumUnreadMessages(ctx, ++numUnread);
+
+        if(numUnread > 1){
             // create and return summary notification.
-            buildSmsReceiveSummaryNotif(ctx, sms,mBuilder);
+            buildSmsReceiveSummaryNotif(ctx, sms,mBuilder,numUnread);
             return true;
         }else{
             // create usual notification , for contact.
@@ -189,11 +207,12 @@ public class MyNotificationManager extends BroadcastReceiver{
         if(action == null) return;
 
         if(action.equals(Constants.Actions.RECEIVED_NOTIFICATION_DISMISSED)){
-            if(intent.getBooleanExtra(IS_SUMMARY,false)){
-                // if summary was dismissed we clear all.
-            }else{
-                Contact contact = new Contact(intent.getBundleExtra(Constants.CONTACT_BUNDLE));
-            }
+            setNumUnreadMessages(context,0);
+//            if(intent.getBooleanExtra(IS_SUMMARY,false)){
+//                // if summary was dismissed we clear all.
+//            }else{
+//                Contact contact = new Contact(intent.getBundleExtra(Constants.CONTACT_BUNDLE));
+//            }
         }else if(action.equals(Constants.Actions.FAILED_NOTIFICATION_DISMISSED)){
             // TODO add failed notification
         }

@@ -1,20 +1,30 @@
 package com.steps.geosms;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.SwitchPreference;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.ioane.sharvadze.geosms.R;
 import com.steps.geosms.utils.Utils;
+
+import java.util.Locale;
 
 
 public class SettingsActivity extends AppCompatActivity {
@@ -96,21 +106,42 @@ public class SettingsActivity extends AppCompatActivity {
             if(!Utils.isDefaultSmsApp(getActivity().getApplicationContext()))
                 notifications.setEnabled(false);
 
+
+            Preference language = getPreferenceManager().findPreference("pref_language");
+            language.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    ListPreference lp = (ListPreference)preference;
+                    if(TextUtils.equals((String)newValue,"0")){
+                        lp.setSummary(lp.getEntryValues()[0]);
+                        setLocale("ka");
+                    }else{
+                        lp.setSummary(lp.getEntryValues()[1]);
+                        setLocale(null);
+                    }
+                    return true;
+                }
+            });
+
             MyPreferencesManager.getWebSmsPreferences(getActivity().getBaseContext()).
                     registerOnSharedPreferenceChangeListener(this);
 
             getPreferenceManager().setSharedPreferencesMode(MODE_PRIVATE);
             SharedPreferences preferences = getPreferenceManager().getSharedPreferences();
-
             onSharedPreferenceChanged(preferences,MyPreferencesManager.WEBSMS_USERNAME);
             onSharedPreferenceChanged(preferences,MyPreferencesManager.WEBSMS_NAME);
         }
 
 
+        public void setLocale(String lang) {
+            Activity activity = getActivity();
+            MyApplication.updateLanguage(activity, lang);
+            activity.recreate();
+        }
+
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             Preference pref = findPreference(key);
-
             if (key.equals(MyPreferencesManager.WEBSMS_USERNAME)) {
                 pref.setSummary(sharedPreferences.getString(key, ""));
             }else if(key.equals(MyPreferencesManager.WEBSMS_NAME)){

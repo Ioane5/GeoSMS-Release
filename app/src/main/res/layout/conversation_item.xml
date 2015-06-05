@@ -38,7 +38,7 @@
                 android:id="@+id/contact_name_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/conversation_user_name"
+                android:textColor="@color/color_contact_name"
                 android:singleLine="true"
                 />
 
@@ -50,7 +50,7 @@
             <TextView
                 android:textAllCaps="true"
                 android:textSize="10sp"
-                android:textColor="@color/conversation_date"
+                android:textColor="@color/color_text_date"
                 android:id="@+id/last_message_date_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
         <TextView
             android:layout_marginTop="5dp"
             android:textSize="12sp"
-            android:textColor="@color/conversation_last_msg"
+            android:textColor="@color/color_last_msg"
             android:textStyle="italic"
             android:id="@+id/last_message_text_view"
             android:layout_width="match_parent"

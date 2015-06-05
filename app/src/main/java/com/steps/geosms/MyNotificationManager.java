@@ -51,13 +51,12 @@ public class MyNotificationManager extends BroadcastReceiver{
     public static void buildSmsReceiveUsualNotif(Context ctx,Contact contact,SMS sms,NotificationCompat.Builder mBuilder){
         Bitmap photo;
         if(contact.getPhotoUri() == null){
-            photo =  BitmapFactory.decodeResource(ctx.getResources(), android.R.drawable.stat_notify_chat);
+            photo =  BitmapFactory.decodeResource(ctx.getResources(), R.mipmap.ic_sms_received);
         }else {
             photo = Utils.getPhotoFromURI(contact.getPhotoUri(), ctx, 100);
         }
-
                     mBuilder.setLargeIcon(photo)
-                        .setSmallIcon(android.R.drawable.stat_notify_chat)
+                        .setSmallIcon(R.mipmap.ic_sms_received)
                         .setContentTitle(contact.getName() == null ? contact.getAddress() : contact.getName())
                         .setDefaults(Notification.DEFAULT_ALL)
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(sms.getText()))
@@ -99,7 +98,7 @@ public class MyNotificationManager extends BroadcastReceiver{
         String format = ctx.getString(R.string.unread_sms_content_format);
 
                     mBuilder.setLargeIcon(photo)
-                        .setSmallIcon(android.R.drawable.stat_notify_chat)
+                        .setSmallIcon(R.mipmap.ic_sms_received)
                         .setContentTitle(ctx.getText(R.string.geosms_unread_sms))
                         .setContentText(String.format(format, numUnread))
                         .setDefaults(Notification.DEFAULT_ALL)

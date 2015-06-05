@@ -67,7 +67,7 @@ public class Utils {
             }
         });
 
-        final ContactsArrayAdapter contactsAdapter = new ContactsArrayAdapter(context,R.layout.contact_item);
+        final ContactsArrayAdapter contactsAdapter = new ContactsArrayAdapter(context,R.layout.contact_item_dialog);
         contactsAdapter.addAll(contacts);
         ListView listView = (ListView)dialog.findViewById(R.id.people_list);
         listView.setAdapter(contactsAdapter);
@@ -291,8 +291,6 @@ public class Utils {
                     new String[]{""+sms.getId()});
         }
     }
-
-
 
 
 

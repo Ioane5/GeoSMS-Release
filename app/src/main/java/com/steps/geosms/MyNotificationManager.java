@@ -59,10 +59,12 @@ public class MyNotificationManager extends BroadcastReceiver{
                     mBuilder.setLargeIcon(photo)
                         .setSmallIcon(android.R.drawable.stat_notify_chat)
                         .setContentTitle(contact.getName() == null ? contact.getAddress() : contact.getName())
-                        .setContentText(sms.getText())
                         .setDefaults(Notification.DEFAULT_ALL)
+                        .setStyle(new NotificationCompat.BigTextStyle().bigText(sms.getText()))
                         .setAutoCancel(true)
-                        .setGroup(GROUP);
+                        .setGroup(GROUP)
+                        .setGroupSummary(true);
+
         setPriority(mBuilder);
 
         Intent resultIntent = new Intent(ctx, ConversationActivity.class);

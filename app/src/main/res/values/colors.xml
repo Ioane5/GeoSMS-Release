@@ -27,12 +27,12 @@
 
 
     <item name="theme_msg_color" type="color">#ff4e4e4e</item>
-    <item name="themePrimary" type="color">#0091EA</item>
-    <item name="themeAccent" type="color">#FBC02D</item>
-    <item name="themePrimaryDark" type="color">#1565C0</item>
+    <item name="themePrimary" type="color">#2196F3</item>
+    <item name="themeAccent" type="color">#40C4FF</item>
+    <item name="themePrimaryDark" type="color">#0D47A1</item>
 
-    <item name="themeLight" type="color">#90CAF9</item>
-    <item name="themeLight2" type="color">#FFF59D</item>
+    <item name="themeLight" type="color">#64B5F6</item>
+    <item name="themeLight2" type="color">#82B1FF</item>
     <item name="themeLightExtra" type="color">#E3F2FD</item>
 
     <color name="theme_grey">#ffa4a4a4</color>

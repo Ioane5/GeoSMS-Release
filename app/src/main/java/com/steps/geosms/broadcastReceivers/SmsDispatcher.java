@@ -37,7 +37,6 @@ public class SmsDispatcher extends BroadcastReceiver {
 
     private static final int VIBRATE_LENGTH = 100;
 
-
     /**
      * No thread is shown to user.
      */
@@ -103,8 +102,7 @@ public class SmsDispatcher extends BroadcastReceiver {
         ContentValues values = SMS.getContentValuesFromBundle(bundle);
         if(values == null)
             return;
-        Uri smsUri = null;
-        smsUri = ctx.getContentResolver().insert(Uri.parse("content://sms/"), values);
+        Uri smsUri = smsUri = ctx.getContentResolver().insert(Uri.parse("content://sms/"), values);
 
         String address = values.getAsString(Constants.ADDRESS);
         Contact contact = new Contact(ctx,address);
@@ -120,8 +118,8 @@ public class SmsDispatcher extends BroadcastReceiver {
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(ctx);
                 boolean isSummary =  MyNotificationManager.buildSmsReceiveNotification(ctx, contact, sms, builder);
 
-                //int notif_id = isSummary ? MyNotificationManager.ID_SMS_RECEIVED : (int)threadId;
-                mNotificationManager.notify(MyNotificationManager.ID_SMS_RECEIVED, builder.build());
+                int notif_id = isSummary ? MyNotificationManager.ID_SMS_RECEIVED : (int)threadId;
+                mNotificationManager.notify(notif_id, builder.build());
             }else {
                 // if user is on this chat , make no notification , just slight vibration
                 values = new ContentValues();

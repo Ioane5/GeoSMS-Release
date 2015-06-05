@@ -59,6 +59,7 @@ public class MyNotificationManager extends BroadcastReceiver{
                         .setSmallIcon(R.mipmap.ic_sms_received)
                         .setContentTitle(contact.getName() == null ? contact.getAddress() : contact.getName())
                         .setDefaults(Notification.DEFAULT_ALL)
+                        .setContentText(sms.getText())
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(sms.getText()))
                         .setAutoCancel(true)
                         .setGroup(GROUP)

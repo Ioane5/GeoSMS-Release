@@ -10,10 +10,10 @@
     <string name="set_default_app_to_send"><i>To send, set as default SMS app</i></string>
     <string name="sms_default_success">Thanks for making right decision</string>
     <string name="sms_default_fail">;((</string>
-    <string name="websms_not_found">your websms account not found</string>
+    <string name="websms_not_found">your webSMS account not found</string>
     <string name="websms_unable_login">Unable to login, please check your password</string>
     <string name="pref_enable_websms">Enable Web SMS</string>
-    <string name="pref_websms_clients">Web Sms Client</string>
+    <string name="pref_websms_clients">Web SMS Client</string>
     <string name="summary">password</string>
     <string name="title_activity_test">TestActivity</string>
     <string name="menu_delete">Delete</string>
@@ -22,6 +22,8 @@
     <string name="warning">Warning</string>
     <string name="geosms_unread_sms">Unread Sms messages</string>
     <string name="unread_sms_content_format" formatted="false">%d unread messages</string>
+    <string name="failed_sms_content_format" formatted="false">%d failed messages</string>
+
     <string name="title_activity_settings_test">SettingsTestActivity</string>
 
     <string name="websms_settings">WebSms</string>
@@ -32,7 +34,6 @@
     <string name="sms_draft"><i>draft</i></string>
 
     <string name="send_button">Send Button</string>
-
     <string name="favorites">Favorites</string>
     <string name="all">All</string>
 
@@ -64,7 +65,7 @@
     <string name="details">Details</string>
     <string name="info">Info</string>
     <string name="people">People</string>
-    <string name="title_activity_conversation_peope">ConversationPeolpeActivity</string>
+    <string name="title_activity_conversation_peope">People</string>
     <string name="people_in_this_conversation">People</string>
     <string name="image">Image</string>
     <string name="sms_sending_faild">Sms sending failed</string>
@@ -73,5 +74,8 @@
     <string name="georgian">Georgian</string>
     <string name="english">English</string>
     <string name="language">Language</string>
-
+    <string name="geosms_failed_sms">Failed SMS messages</string>
+    <string name="restart_app_request">We need to restart Application, Continue?</string>
+    <string name="restart_request_title">Change Language</string>
+    <string name="restart">Restart</string>
 </resources>

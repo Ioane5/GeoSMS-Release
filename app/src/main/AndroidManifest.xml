@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -20,10 +21,12 @@
         android:label="@string/app_name"
         android:theme="@style/CustomActionBarTheme"
         android:name="com.steps.geosms.MyApplication">
+
         <receiver
-            android:name="com.steps.geosms.broadcastReceivers.SmsDispatcher"
+            android:name="com.steps.geosms.notifications.SmsReceiver"
             android:enabled="true"
-            android:permission="android.permission.BROADCAST_SMS" >
+            android:permission="android.permission.BROADCAST_SMS"
+            >
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_DELIVER" />
             </intent-filter>
@@ -36,13 +39,6 @@
         </receiver>
 
         <!-- BroadcastReceiver that listens for Our Notifications -->
-        <receiver
-            android:name="com.steps.geosms.MyNotificationManager"
-            android:exported="false" >
-            <intent-filter>
-                <action android:name="notification_dismissed" />
-            </intent-filter>
-        </receiver>
 
         <!-- BroadcastReceiver that listens for incoming MMS messages -->
         <receiver
@@ -54,6 +50,9 @@
                 <data android:mimeType="application/vnd.wap.mms-message" />
             </intent-filter>
         </receiver>
+
+
+        <service android:name="com.steps.geosms.notifications.SmsManagerService"/>
 
         <activity
             android:name="com.steps.geosms.conversationsList.ConversationsListActivity"

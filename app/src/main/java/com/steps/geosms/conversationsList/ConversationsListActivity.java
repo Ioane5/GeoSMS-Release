@@ -34,9 +34,9 @@ import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.listeners.ActionClickListener;
 import com.nispok.snackbar.listeners.EventListener;
-import com.steps.geosms.MyNotificationManager;
 import com.steps.geosms.conversation.ConversationActivity;
 import com.steps.geosms.newConversation.NewConversationActivity;
+import com.steps.geosms.notifications.SmsManagerService;
 import com.steps.geosms.objects.Contact;
 import com.steps.geosms.objects.Conversation;
 import com.steps.geosms.utils.Constants;
@@ -82,15 +82,18 @@ public class ConversationsListActivity extends MyActivity implements AdapterView
         initMultiChoiceListView();
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
-
-        MyNotificationManager.clearNotifications(getBaseContext());
-        MyNotificationManager.setNumUnreadMessages(this,0);
         getLoaderManager().initLoader(0, null, this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SmsManagerService.dismissSummaryNotifications(ConversationsListActivity.this);
+            }
+        }).start();
         // if it's default app , it changes layout.
         defaultAppResolve();
     }

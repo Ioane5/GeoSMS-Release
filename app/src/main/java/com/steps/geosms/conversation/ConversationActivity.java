@@ -1,7 +1,6 @@
 package com.steps.geosms.conversation;
 
 import android.app.LoaderManager;
-import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -44,7 +43,7 @@ import android.widget.ToggleButton;
 import com.ioane.sharvadze.geosms.R;
 import com.steps.geosms.GeoSmsManager;
 import com.steps.geosms.MyPreferencesManager;
-import com.steps.geosms.broadcastReceivers.SmsDispatcher;
+import com.steps.geosms.notifications.SmsManagerService;
 import com.steps.geosms.objects.Contact;
 import com.steps.geosms.objects.Conversation;
 import com.steps.geosms.objects.SMS;
@@ -179,7 +178,7 @@ public class ConversationActivity extends MyActivity implements LoaderManager.Lo
 
             @Override
             public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-                if (listView.getCheckedItemCount() == 1){
+                if (listView.getCheckedItemCount() == 1) {
                     // single choice
                     MenuItem item = menu.findItem(R.id.action_details);
                     item.setVisible(true);
@@ -198,34 +197,34 @@ public class ConversationActivity extends MyActivity implements LoaderManager.Lo
                 SparseBooleanArray checkedItemPositions = listView.getCheckedItemPositions();
                 final List<SMS> smsList = new ArrayList<>(checkedItemPositions.size());
 
-                Log.i(TAG,"eeh " + checkedItemPositions.size());
-                for (int i = 0; i < checkedItemPositions.size(); i++){
+                Log.i(TAG, "eeh " + checkedItemPositions.size());
+                for (int i = 0; i < checkedItemPositions.size(); i++) {
                     int pos = checkedItemPositions.keyAt(i);
-                    if (checkedItemPositions.get(pos)){
-                        SMS sms = new SMS((Cursor)adapter.getItem(pos));
+                    if (checkedItemPositions.get(pos)) {
+                        SMS sms = new SMS((Cursor) adapter.getItem(pos));
                         smsList.add(sms);
-                    }else{
-                        Log.i(TAG,"WTF");
+                    } else {
+                        Log.i(TAG, "WTF");
                     }
                 }
 
-                if(smsList.isEmpty())
+                if (smsList.isEmpty())
                     return false;
 
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.action_copy:
                         ClipboardManager clipboardManager = (ClipboardManager)
                                 getSystemService(CLIPBOARD_SERVICE);
 
                         StringBuilder strBuilder = new StringBuilder();
-                        for(SMS sms : smsList){
+                        for (SMS sms : smsList) {
                             strBuilder.append(sms.getText());
                         }
-                        ClipData clip = ClipData.newPlainText("sms",strBuilder.toString());
+                        ClipData clip = ClipData.newPlainText("sms", strBuilder.toString());
                         clipboardManager.setPrimaryClip(clip);
                         break;
                     case R.id.action_send_as_new:
-                        for (SMS sms : smsList){
+                        for (SMS sms : smsList) {
                             sms.setDate(new Date());
                             sendMessage(sms);
                         }
@@ -233,7 +232,7 @@ public class ConversationActivity extends MyActivity implements LoaderManager.Lo
                     case R.id.action_details:
                         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(ConversationActivity.this);
                         alertBuilder.setTitle(R.string.info)
-                            .setMessage(smsList.get(0).textReference());
+                                .setMessage(smsList.get(0).textReference());
                         alertBuilder.setCancelable(true);
                         alertBuilder.show();
                         break;
@@ -241,7 +240,7 @@ public class ConversationActivity extends MyActivity implements LoaderManager.Lo
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                Utils.deleteSmsList(getBaseContext(),smsList);
+                                Utils.deleteSmsList(getBaseContext(), smsList);
                             }
                         }).start();
                         break;
@@ -263,7 +262,7 @@ public class ConversationActivity extends MyActivity implements LoaderManager.Lo
     private void startLoader(){
         // if we needn't thread_id resolve we don't create new thread.
         if(thread_id != Constants.THREAD_NONE){
-            SmsDispatcher.updateThreadId(thread_id);
+            SmsManagerService.updateThreadId(thread_id);
             getLoaderManager().initLoader(0, null, this);
             return;
         }
@@ -278,28 +277,10 @@ public class ConversationActivity extends MyActivity implements LoaderManager.Lo
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                SmsDispatcher.updateThreadId(thread_id);
+                SmsManagerService.updateThreadId(thread_id);
                 getLoaderManager().initLoader(0, null, ConversationActivity.this);
             }
         }.execute();
-    }
-
-    private void dismissCurrThreadNotifs() {
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.cancel((int) thread_id);
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        Log.i(TAG,"vamowmeb");
-        if(intent.getExtras() != null && intent.getSerializableExtra(Constants.CONTACT_DATA) != null){
-            Log.i(TAG,"WOOOOW SOLVED");
-        }else{
-            Log.i(TAG,"chemi pexebi");
-        }
-        setIntent(intent);
     }
 
     @Override
@@ -317,11 +298,11 @@ public class ConversationActivity extends MyActivity implements LoaderManager.Lo
             Log.w(TAG, "contact is null");
             return;
         }
-        SmsDispatcher.updateThreadId(thread_id);
+        SmsManagerService.updateThreadId(thread_id);
         new Thread(new Runnable() {
             @Override
             public void run() {
-                dismissCurrThreadNotifs();
+                SmsManagerService.dismissThreadNotifications(ConversationActivity.this,thread_id);
                 markConversationAsRead();
             }
         }).start();
@@ -332,7 +313,7 @@ public class ConversationActivity extends MyActivity implements LoaderManager.Lo
         super.onPause();
         if(mNetworkChangeListener != null)
             unregisterReceiver(mNetworkChangeListener);
-        SmsDispatcher.updateThreadId(SmsDispatcher.THREAD_ID_NONE);
+        SmsManagerService.updateThreadId(SmsManagerService.THREAD_ID_NONE);
     }
 
     /**

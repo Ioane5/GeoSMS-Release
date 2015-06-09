@@ -12,7 +12,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.ioane.sharvadze.geosms.R;
-import com.steps.geosms.broadcastReceivers.SmsDispatcher;
+import com.steps.geosms.notifications.SmsReceiver;
 import com.steps.geosms.objects.SMS;
 import com.steps.geosms.utils.Constants;
 import com.steps.geosms.websms.SyncedWebSms;
@@ -72,7 +72,7 @@ public class GeoSmsManager {
                 Uri insertedSmsURI = context.getContentResolver().insert(Uri.parse("content://sms/"), values);
 
                 Intent sentPI = new Intent(Constants.Actions.MESSAGE_SENT, insertedSmsURI ,
-                        context.getApplicationContext(), SmsDispatcher.class);
+                        context.getApplicationContext(), SmsReceiver.class);
                 sentPI.putExtra(Constants.ADDRESS, address);
                 sentPI.putExtra(Constants.THREAD_ID, threadId);
 
@@ -90,7 +90,7 @@ public class GeoSmsManager {
                     ArrayList<PendingIntent> deliveryPIs = null;
                     if(isDeliveryRequested){
                         Intent deliveryPI = new Intent(Constants.Actions.SMS_DELIVERED, insertedSmsURI,
-                                context.getApplicationContext(),SmsDispatcher.class);
+                                context.getApplicationContext(),SmsReceiver.class);
                         deliveryPIs = new ArrayList<>(dividedMessage.size());
                         for (int i = 0; i < dividedMessage.size() ; i++)
                             deliveryPIs.add(PendingIntent.getBroadcast(context,0,new Intent(deliveryPI),0));

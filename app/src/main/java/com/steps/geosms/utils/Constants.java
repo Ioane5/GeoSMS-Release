@@ -12,6 +12,8 @@ import android.provider.ContactsContract;
 @SuppressWarnings("unused")
 public interface Constants {
 
+    String NOTIFICATION_ARRAY = "notification_array";
+
     interface URIS{
         Uri SMS = Uri.parse("content://sms");
     }
@@ -169,6 +171,8 @@ public interface Constants {
 
 
     }
+
+    String NOTIFICATION_TYPE = "notification_type";
 
 
 //    /**

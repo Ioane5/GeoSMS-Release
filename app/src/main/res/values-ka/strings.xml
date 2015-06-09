@@ -49,7 +49,9 @@
     <string name="sms_draft"><i>მონახაზი</i></string>
     <string name="sms_failed">✗</string>
     <string name="sms_pending">...</string>
-    <string name="unread_sms_content_format">%d წაუკითხავი შეტყობინება</string>
+    <string name="unread_sms_content_format" formatted="false">%d წაუკითხავი შეტყობინება</string>
+    <string name="failed_sms_content_format" formatted="false">%d გაუგზავნელი შეტყობინება</string>
+
     <string name="sms_sending_faild">SMS ვერ გაიგზავნა</string>
     <string name="start_conversation">საუბრის დაწყება</string>
     <string name="summary">პასვორდი</string>
@@ -70,4 +72,5 @@
     <string name="language">ენა</string>
     <string name="georgian">ქართული</string>
     <string name="sms_default_fail">;((</string>
+    <string name="restart_app_request">We need to restart Application, Continue?</string>
 </resources>

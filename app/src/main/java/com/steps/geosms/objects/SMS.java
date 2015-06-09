@@ -26,8 +26,9 @@ public class SMS {
 
     private String text;
 
-    private int id;
+    private long id;
 
+    private String address;
     /**
      * If msg if from me date is date sent.
      * If from other date is date received.
@@ -94,7 +95,10 @@ public class SMS {
         Integer temp = cv.getAsInteger(MESSAGE.STATUS);
         this.isDelivered = temp != null && temp == MESSAGE.STATUS_COMPLETE;
         this.serviceCenter  = cv.getAsString(MESSAGE.SERVICE_CENTER);
+        this.address = cv.getAsString(Constants.ADDRESS);
     }
+
+
 
     public SMS(Cursor cursor) {
         int protocol = cursor.getInt(cursor.getColumnIndex(MESSAGE.PROTOCOL));
@@ -106,6 +110,7 @@ public class SMS {
         id = cursor.getInt(cursor.getColumnIndex(MESSAGE.ID));
         text = cursor.getString(cursor.getColumnIndex(MESSAGE.BODY));
         date = new Date(cursor.getLong(cursor.getColumnIndex(MESSAGE.DATE)));
+        address = cursor.getString(cursor.getColumnIndex(Constants.ADDRESS));
 
         int intType = cursor.getInt(cursor.getColumnIndex(MESSAGE.TYPE));
         type = intToMsgType(intType);
@@ -127,11 +132,19 @@ public class SMS {
 
     }
 
-    public int getId() {
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

@@ -2,29 +2,22 @@ package com.steps.geosms;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.SwitchPreference;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.ioane.sharvadze.geosms.R;
 import com.steps.geosms.utils.Utils;
-
-import java.util.Locale;
 
 
 public class SettingsActivity extends AppCompatActivity {
@@ -113,10 +106,8 @@ public class SettingsActivity extends AppCompatActivity {
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     ListPreference lp = (ListPreference)preference;
                     if(TextUtils.equals((String)newValue,"0")){
-                        lp.setSummary(lp.getEntryValues()[0]);
                         setLocale("ka");
                     }else{
-                        lp.setSummary(lp.getEntryValues()[1]);
                         setLocale(null);
                     }
                     return true;
@@ -133,10 +124,26 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
 
-        public void setLocale(String lang) {
-            Activity activity = getActivity();
-            MyApplication.updateLanguage(activity, lang);
-            activity.recreate();
+        public void setLocale(final String lang) {
+            android.support.v7.app.AlertDialog.Builder builder =
+                    new android.support.v7.app.AlertDialog.Builder(getActivity());
+            builder.setPositiveButton(R.string.restart, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Activity activity = getActivity();
+                        MyApplication.updateLanguage(activity, lang);
+
+                        Intent i = activity.getPackageManager()
+                                .getLaunchIntentForPackage(activity.getPackageName());
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        activity.finish();
+                        startActivity(i);
+                    }
+                }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                }).setTitle(R.string.restart_request_title)
+                  .setMessage(getString(R.string.restart_app_request));
         }
 
         @Override

@@ -143,7 +143,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                     }
                 }).setTitle(R.string.restart_request_title)
-                  .setMessage(getString(R.string.restart_app_request));
+                  .setMessage(getString(R.string.restart_app_request)).show();
         }
 
         @Override

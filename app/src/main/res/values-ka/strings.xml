@@ -72,5 +72,12 @@
     <string name="language">ენა</string>
     <string name="georgian">ქართული</string>
     <string name="sms_default_fail">;((</string>
-    <string name="restart_app_request">We need to restart Application, Continue?</string>
+    <string name="restart_app_request">საჭიროა აპლიკაციის გადატვირთვა, გავაგრძელოთ?</string>
+    <string name="geosms_failed_sms">გაუგზავნელი SMS შეტყობინებები</string>
+    <string name="restart">გადატვირთვა</string>
+    <string name="restart_request_title">ენის შეცვლა</string>
+    <string name="None">არცერთი</string>
+    <string name="Magtifun">Magtifun</string>
+    <string name="password">პაროლი</string>
+    <string name="username">სახელი</string>
 </resources>

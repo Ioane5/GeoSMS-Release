@@ -19,6 +19,7 @@ import com.steps.geosms.websms.SyncedWebSms;
 import com.steps.geosms.websms.WebSms;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Class GeoSmsManager
@@ -61,6 +62,7 @@ public class GeoSmsManager {
             protected Integer doInBackground(Object... params) {
                 SMS sms = (SMS)params[0];
                 sms.setMsgType(SMS.MsgType.PENDING);
+                sms.setDate(new Date());
                 String address = (String)params[1];
                 long threadId = (Long)params[2];
                 boolean web = (Boolean)params[3];

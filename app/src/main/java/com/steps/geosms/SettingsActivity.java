@@ -1,7 +1,9 @@
 package com.steps.geosms;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +14,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -106,9 +109,9 @@ public class SettingsActivity extends AppCompatActivity {
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     ListPreference lp = (ListPreference)preference;
                     if(TextUtils.equals((String)newValue,"0")){
-                        setLocale("ka");
+                        setLocale(lp,"ka");
                     }else{
-                        setLocale(null);
+                        setLocale(lp,null);
                     }
                     return true;
                 }
@@ -124,23 +127,18 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
 
-        public void setLocale(final String lang) {
+        public void setLocale(final ListPreference lp,final String lang) {
+            final String oldVal = lp.getValue();
             android.support.v7.app.AlertDialog.Builder builder =
                     new android.support.v7.app.AlertDialog.Builder(getActivity());
             builder.setPositiveButton(R.string.restart, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Activity activity = getActivity();
-                        MyApplication.updateLanguage(activity, lang);
-
-                        Intent i = activity.getPackageManager()
-                                .getLaunchIntentForPackage(activity.getPackageName());
-                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        activity.finish();
-                        startActivity(i);
+                        MyApplication.updateLanguage(getActivity(), lang);
+                        restart(getActivity(),100);
                     }
                 }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-
+                        lp.setValue(oldVal);
                     }
                 }).setTitle(R.string.restart_request_title)
                   .setMessage(getString(R.string.restart_app_request)).show();
@@ -160,5 +158,22 @@ public class SettingsActivity extends AppCompatActivity {
                         : null);
             }
         }
+
+        public static void restart(Context context, int delay) {
+            if (delay == 0) {
+                delay = 1;
+            }
+            Log.e("", "restarting app");
+            Intent restartIntent = context.getPackageManager()
+                    .getLaunchIntentForPackage(context.getPackageName() );
+            PendingIntent intent = PendingIntent.getActivity(
+                    context, 0,
+                    restartIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            manager.set(AlarmManager.RTC, System.currentTimeMillis() + delay, intent);
+            System.exit(2);
+        }
+
+
     }
 }

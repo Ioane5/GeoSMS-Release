@@ -2,20 +2,20 @@
     <string name="title_activity_settings">Settings</string>
 
 
-    <string name="pref_websms_username">Username</string>
-    <string name="pref_websms_password">Password</string>
+    <string name="pref_websms_username">@string/username</string>
+    <string name="pref_websms_password">@string/password</string>
 
 
     <string-array name="pref_web_sms_client_list_titles">
-        <item>Magtifun</item>
-        <item>None</item>
+        <item>@string/Magtifun</item>
+        <item>@string/None</item>
     </string-array>
-    <string-array name="pref_web_sms_client_list_values">
+    <string-array name="pref_web_sms_client_list_values"  translatable="false">
         <item>1</item>
         <item>-1</item>
     </string-array>
 
-    <string-array name="pref_language_list_values">
+    <string-array name="pref_language_list_values"  translatable="false">
         <item>0</item>
         <item>1</item>
     </string-array>

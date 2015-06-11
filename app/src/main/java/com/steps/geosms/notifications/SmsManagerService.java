@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -132,10 +133,10 @@ public class SmsManagerService extends IntentService {
             Log.w(TAG,"bundle is empty");
             return;
         }
-
         ContentValues values = SMS.getContentValuesFromBundle(bundle);
         if(values == null)
             return;
+        values.put(Constants.MESSAGE.DATE,System.currentTimeMillis()); // time correction
         Uri smsUri = ctx.getContentResolver().insert(Uri.parse("content://sms/"), values);
 
         String address = values.getAsString(Constants.ADDRESS);
@@ -321,6 +322,7 @@ public class SmsManagerService extends IntentService {
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setAutoCancel(true)
                     .setGroup(GROUP)
+                    .setColor(Color.argb(100,20,80,200))
                     .setGroupSummary(true);
 
             Intent resultIntent = new Intent(this, ConversationsListActivity.class);
@@ -374,8 +376,7 @@ public class SmsManagerService extends IntentService {
                     .setContentText(text)
                     .setStyle(new NotificationCompat.BigTextStyle().bigText(text))
                     .setAutoCancel(true)
-                    .setGroup(GROUP)
-                    .setGroupSummary(true);
+                    .setGroup(GROUP);
 
             // now build callback
             Intent resultIntent = new Intent(this, ConversationActivity.class);

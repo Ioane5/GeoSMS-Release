@@ -18,8 +18,6 @@ import com.steps.geosms.objects.Contact;
 import com.steps.geosms.objects.SMS;
 import com.steps.geosms.utils.Utils;
 
-import app.GeoTranslator;
-
 /**
  * Class ConversationCursorAdapter
  * (custom cursor adapter)
@@ -38,7 +36,7 @@ public class ConversationCursorAdapter extends CursorAdapter {
 
     private static final int OTHER = 1;
     private static final int ME = 0;
-    private static GeoTranslator mTranslator;
+   //private static GeoTranslator mTranslator;
 
     public ConversationCursorAdapter(Context context, Cursor c, boolean autoRequery ,Contact contact) {
         super(context, c, autoRequery);
@@ -57,7 +55,7 @@ public class ConversationCursorAdapter extends CursorAdapter {
             OWNER_IMAGE = Utils.getCircleBitmap(Utils.getPhotoFromURI(ownerPhotoUri,context,60));
         }
 
-        mTranslator = new GeoTranslator.load();
+        //mTranslator = new GeoTranslator.load();
 
     }
 

@@ -25,5 +25,4 @@ dependencies {
     compile 'com.nispok:snackbar:2.10.7'
     compile 'com.android.support:appcompat-v7:22.1.1'
     compile 'com.android.support:support-v4:22.1.1'
-    compile files('libs/GeoTranslator.1.0.jar')
 }

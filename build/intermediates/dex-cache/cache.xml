@@ -2,60 +2,60 @@
 <items version="2" >
 
     <item
-        jar="/home/ioane/Android studioProjects/GeoSMS-Release/app/build/intermediates/exploded-aar/com.melnykov/floatingactionbutton/1.3.0/jars/classes.jar"
+        jar="C:\Users\Ioane\AndroidStudioProjects\GeoSMS-Release\app\build\intermediates\exploded-aar\com.melnykov\floatingactionbutton\1.3.0\jars\classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="8c6ebb7d087d1a30bf84356bd2aecf85309fc024">
-        <dex dex="/home/ioane/Android studioProjects/GeoSMS-Release/app/build/intermediates/pre-dexed/debug/classes-06a2113f74ff18c1aca9922e9c72da3e7030a869.jar" />
+        <dex dex="C:\Users\Ioane\AndroidStudioProjects\GeoSMS-Release\app\build\intermediates\pre-dexed\debug\classes-8a295e17fabb0e1883301517343607fad7ab714a.jar" />
     </item>
     <item
-        jar="/home/ioane/.gradle/caches/modules-2/files-2.1/com.nineoldandroids/library/2.4.0/e9b63380f3a242dbdbf103a2355ad7e43bad17cb/library-2.4.0.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
-        <dex dex="/home/ioane/Android studioProjects/GeoSMS-Release/app/build/intermediates/pre-dexed/debug/library-2.4.0-06c8fd835f31cc6d57eaa8e3c194e07e64b8a5a0.jar" />
-    </item>
-    <item
-        jar="/home/ioane/Android studioProjects/GeoSMS-Release/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.1.1/jars/libs/internal_impl-22.1.1.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="9e070ad32b2700b0343e8e0cccc437733d91ba3a">
-        <dex dex="/home/ioane/Android studioProjects/GeoSMS-Release/app/build/intermediates/pre-dexed/debug/internal_impl-22.1.1-8020126466d84059443bc865b6d8b4b94da7dc18.jar" />
-    </item>
-    <item
-        jar="/home/ioane/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/22.1.1/support-annotations-22.1.1.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="01d051a6bfb1218b1db2d3a5af0480ac2c25c42a">
-        <dex dex="/home/ioane/Android studioProjects/GeoSMS-Release/app/build/intermediates/pre-dexed/debug/support-annotations-22.1.1-5c07ad0b0454f94424a48bb204339739abfa9abe.jar" />
-    </item>
-    <item
-        jar="/home/ioane/Android studioProjects/GeoSMS-Release/app/build/intermediates/exploded-aar/com.nispok/snackbar/2.10.7/jars/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="7cb879f9052e6b4de7940d458f700e5a65bf324e">
-        <dex dex="/home/ioane/Android studioProjects/GeoSMS-Release/app/build/intermediates/pre-dexed/debug/classes-70b498fec92e6a769db9fbc59e7787e37c3497ae.jar" />
-    </item>
-    <item
-        jar="/home/ioane/Android studioProjects/GeoSMS-Release/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/jars/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="a3ff3c506644c820eb2bdf06e8339f72be578551">
-        <dex dex="/home/ioane/Android studioProjects/GeoSMS-Release/app/build/intermediates/pre-dexed/debug/classes-87a98220b9bd4bd6a788f13ee7c9f6b067b35459.jar" />
-    </item>
-    <item
-        jar="/home/ioane/Android studioProjects/GeoSMS-Release/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/22.0.0/jars/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="c6d79137693d494dee16372d3921f919eb724ced">
-        <dex dex="/home/ioane/Android studioProjects/GeoSMS-Release/app/build/intermediates/pre-dexed/debug/classes-40afa40a96aae54b790629b768a0ddcc57e1adf6.jar" />
-    </item>
-    <item
-        jar="/home/ioane/Android studioProjects/GeoSMS-Release/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.1.1/jars/classes.jar"
+        jar="C:\Users\Ioane\AndroidStudioProjects\GeoSMS-Release\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.1.1\jars\classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="c95ba8152923e4872e86a82cfcba9a51c0214328">
-        <dex dex="/home/ioane/Android studioProjects/GeoSMS-Release/app/build/intermediates/pre-dexed/debug/classes-b2889d3197fe5136ef59a4827bafa139cc0786dc.jar" />
+        <dex dex="C:\Users\Ioane\AndroidStudioProjects\GeoSMS-Release\app\build\intermediates\pre-dexed\debug\classes-44fc7d390bea13a5f69bd5a6878fc89287b81a79.jar" />
+    </item>
+    <item
+        jar="C:\Users\Ioane\AndroidStudioProjects\GeoSMS-Release\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="a3ff3c506644c820eb2bdf06e8339f72be578551">
+        <dex dex="C:\Users\Ioane\AndroidStudioProjects\GeoSMS-Release\app\build\intermediates\pre-dexed\debug\classes-a8b79eceeda1c13b645d0bacf8cdc6766e86ef1e.jar" />
+    </item>
+    <item
+        jar="C:\Users\Ioane\AndroidStudioProjects\GeoSMS-Release\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.1.1\jars\libs\internal_impl-22.1.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="9e070ad32b2700b0343e8e0cccc437733d91ba3a">
+        <dex dex="C:\Users\Ioane\AndroidStudioProjects\GeoSMS-Release\app\build\intermediates\pre-dexed\debug\internal_impl-22.1.1-1e66d0b2d8d00c7e4a58458ed068f898db63a63b.jar" />
+    </item>
+    <item
+        jar="C:\Users\Ioane\AndroidStudioProjects\GeoSMS-Release\app\build\intermediates\exploded-aar\com.nispok\snackbar\2.10.7\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="7cb879f9052e6b4de7940d458f700e5a65bf324e">
+        <dex dex="C:\Users\Ioane\AndroidStudioProjects\GeoSMS-Release\app\build\intermediates\pre-dexed\debug\classes-57f2154e6f61fe2718c4749eaabd9b81bc490a77.jar" />
+    </item>
+    <item
+        jar="C:\Users\Ioane\.gradle\caches\modules-2\files-2.1\com.nineoldandroids\library\2.4.0\e9b63380f3a242dbdbf103a2355ad7e43bad17cb\library-2.4.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
+        <dex dex="C:\Users\Ioane\AndroidStudioProjects\GeoSMS-Release\app\build\intermediates\pre-dexed\debug\library-2.4.0-cd9716183b5f8c02e2e525e5aedc9024ad4a285c.jar" />
+    </item>
+    <item
+        jar="C:\Users\Ioane\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\22.1.1\support-annotations-22.1.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01d051a6bfb1218b1db2d3a5af0480ac2c25c42a">
+        <dex dex="C:\Users\Ioane\AndroidStudioProjects\GeoSMS-Release\app\build\intermediates\pre-dexed\debug\support-annotations-22.1.1-e160b6965ef140d2d5111bd091c76754ede40b0f.jar" />
+    </item>
+    <item
+        jar="C:\Users\Ioane\AndroidStudioProjects\GeoSMS-Release\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\22.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="c6d79137693d494dee16372d3921f919eb724ced">
+        <dex dex="C:\Users\Ioane\AndroidStudioProjects\GeoSMS-Release\app\build\intermediates\pre-dexed\debug\classes-84d584b309d8b71b10cbdfb4e5fc003aeaa74e44.jar" />
     </item>
 
 </items>

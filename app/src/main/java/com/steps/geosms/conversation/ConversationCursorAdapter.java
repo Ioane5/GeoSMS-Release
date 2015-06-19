@@ -10,7 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ioane.sharvadze.geosms.R;
@@ -66,6 +68,8 @@ public class ConversationCursorAdapter extends CursorAdapter {
         TextView deliveryStatusView;
         TextView timeView;
         ImageView photo;
+        ImageButton failed;
+        ProgressBar sending;
     }
 
     @Override
@@ -94,6 +98,8 @@ public class ConversationCursorAdapter extends CursorAdapter {
             holder.deliveryStatusView = (TextView)view.findViewById(R.id.delivery_status_view);
             holder.timeView = (TextView)view.findViewById(R.id.time_view);
             holder.photo = (ImageView)view.findViewById(R.id.message_contact_photo);
+            holder.failed = (ImageButton)view.findViewById(R.id.failed_button);
+            holder.sending = (ProgressBar)view.findViewById(R.id.sending_progress);
             view.setTag(holder);
         }else{
             holder = (ViewHolder)view.getTag();
@@ -119,21 +125,23 @@ public class ConversationCursorAdapter extends CursorAdapter {
             holder.photo.setImageBitmap(OWNER_IMAGE);
             holder.photo.setVisibility(View.VISIBLE);
         }
+        holder.failed.setVisibility(View.GONE);
+        holder.sending.setVisibility(View.GONE);
+        holder.deliveryStatusView.setVisibility(View.GONE);
 
         switch (type){
             case SENT:
                 break;
             case PENDING:
-                holder.deliveryStatusView.setText(R.string.sms_pending);
-                holder.deliveryStatusView.setTextColor(Color.GRAY);
+                holder.sending.setVisibility(View.VISIBLE);
                 break;
             case DRAFT:
+                holder.deliveryStatusView.setVisibility(View.VISIBLE);
                 holder.deliveryStatusView.setText(R.string.sms_draft);
                 holder.deliveryStatusView.setTextColor(Color.GRAY);
                 break;
             case FAILED:
-                holder.deliveryStatusView.setText(R.string.sms_failed);
-                holder.deliveryStatusView.setTextColor(Color.RED);
+                holder.failed.setVisibility(View.VISIBLE);
                 break;
             case RECEIVED:
                 /*
@@ -147,6 +155,7 @@ public class ConversationCursorAdapter extends CursorAdapter {
         }
 
         if(message.isDelivered()){
+            holder.deliveryStatusView.setVisibility(View.VISIBLE);
             holder.deliveryStatusView.setText(R.string.sms_delivered);
             holder.deliveryStatusView.setTextColor(Color.GRAY);
         }
@@ -156,6 +165,7 @@ public class ConversationCursorAdapter extends CursorAdapter {
                 System.currentTimeMillis(), DateUtils.MINUTE_IN_MILLIS, DateUtils.FORMAT_ABBREV_ALL);
         holder.timeView.setText(formattedTime);
     }
+
 
 
     @Override

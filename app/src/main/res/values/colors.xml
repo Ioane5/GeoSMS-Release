@@ -34,7 +34,7 @@
     <item name="themeLight" type="color">#90CAF9</item>
     <item name="themeLight2" type="color">#77BEF5</item>
     <item name="themeLightExtra" type="color">#E3F2FD</item>
-    <item name="theme_selected" type="color">#617D92</item>
+    <item name="theme_selected" type="color">@color/themePrimary</item>
 
     <color name="theme_grey">#ffa4a4a4</color>
     <color name="transparent_gray">#c9676767</color>
@@ -43,7 +43,7 @@
     <color name="transparent" type="color">#00000000</color>
     <color name="themeAccent2">#fff9c4</color>
     <color name="theme_transparent_red">#37ff5722</color>
-    <color name="theme_red">#ffff5722</color>
+    <color name="theme_red">@color/themePrimary</color>
 
 
     <integer-array name="androidcolors">

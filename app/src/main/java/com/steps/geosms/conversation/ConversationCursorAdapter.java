@@ -147,6 +147,7 @@ public class ConversationCursorAdapter extends CursorAdapter {
                 break;
             case FAILED:
                 holder.failed.setVisibility(View.VISIBLE);
+                holder.failed.setTag(message);
                 break;
             case RECEIVED:
                 /*

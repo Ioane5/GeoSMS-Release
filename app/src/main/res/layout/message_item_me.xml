@@ -50,6 +50,7 @@
             android:indeterminate="true" />
 
         <ImageButton
+            android:onClick="resend"
             android:id="@+id/failed_button"
             android:layout_width="40dp"
             android:layout_height="40dp"

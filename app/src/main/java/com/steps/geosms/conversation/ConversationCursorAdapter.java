@@ -84,7 +84,6 @@ public class ConversationCursorAdapter extends CursorAdapter {
         }
     }
 
-
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         SMS message = new SMS(cursor);
@@ -106,6 +105,13 @@ public class ConversationCursorAdapter extends CursorAdapter {
         }
 
         SMS.MsgType type = message.getMsgType();
+
+        if(type.equals(SMS.MsgType.PENDING)){
+            long curr = System.currentTimeMillis();
+            if(curr > message.getDate().getTime() + Utils.minuteToMillis(7))
+                type = SMS.MsgType.FAILED; // long pending messages are also failed
+        }
+
 
         SMS nextSms = null;
         if(cursor.moveToPrevious()){
@@ -138,7 +144,6 @@ public class ConversationCursorAdapter extends CursorAdapter {
             case DRAFT:
                 holder.deliveryStatusView.setVisibility(View.VISIBLE);
                 holder.deliveryStatusView.setText(R.string.sms_draft);
-                holder.deliveryStatusView.setTextColor(Color.GRAY);
                 break;
             case FAILED:
                 holder.failed.setVisibility(View.VISIBLE);
@@ -157,7 +162,6 @@ public class ConversationCursorAdapter extends CursorAdapter {
         if(message.isDelivered()){
             holder.deliveryStatusView.setVisibility(View.VISIBLE);
             holder.deliveryStatusView.setText(R.string.sms_delivered);
-            holder.deliveryStatusView.setTextColor(Color.GRAY);
         }
 
         holder.messageView.setText(message.getText());

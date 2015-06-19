@@ -293,5 +293,8 @@ public class Utils {
     }
 
 
+    public static long minuteToMillis(int mins){
+        return mins * 60000;
+    }
 
 }

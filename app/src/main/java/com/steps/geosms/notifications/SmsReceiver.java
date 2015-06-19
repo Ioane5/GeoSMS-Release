@@ -30,26 +30,10 @@ public class SmsReceiver extends WakefulBroadcastReceiver{
             abortBroadcast();
 
 
-        dumpIntent(intent);
         intent.putExtra("result",getResultCode());
         intent.setClass(context, SmsManagerService.class);
 
         startWakefulService(context, intent);
     }
 
-
-    public static void dumpIntent(Intent i){
-
-        Bundle bundle = i.getExtras();
-        if (bundle != null) {
-            Set<String> keys = bundle.keySet();
-            Iterator<String> it = keys.iterator();
-            Log.e(TAG,"Dumping Intent start");
-            while (it.hasNext()) {
-                String key = it.next();
-                Log.e(TAG,"[" + key + "=" + bundle.get(key)+"]");
-            }
-            Log.e(TAG,"Dumping Intent end");
-        }
-    }
 }

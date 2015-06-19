@@ -55,6 +55,11 @@
     <PreferenceCategory
         android:title="@string/general_pref_category">
 
+        <!--<SwitchPreference
+            android:key="enable_geoTranslate"
+            android:title="@string/pref_enable_geoTranslate"
+            android:defaultValue="false" /> -->
+
         <ListPreference
             android:key="pref_language"
             android:title="@string/language"

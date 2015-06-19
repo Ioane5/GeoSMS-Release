@@ -1,10 +1,14 @@
 package com.steps.geosms.conversation;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ioane.sharvadze.geosms.R;
+import com.steps.geosms.MyApplication;
 import com.steps.geosms.objects.Contact;
 import com.steps.geosms.objects.SMS;
 import com.steps.geosms.utils.Utils;
@@ -24,7 +29,7 @@ import com.steps.geosms.utils.Utils;
  *
  * Created by Ioane on 2/26/2015.
  */
-public class ConversationCursorAdapter extends CursorAdapter {
+public class ConversationCursorAdapter extends CursorAdapter{
 
 
     @SuppressWarnings("unused")
@@ -34,16 +39,15 @@ public class ConversationCursorAdapter extends CursorAdapter {
 
     private Bitmap OWNER_IMAGE;
 
-    private static final int OTHER = 1;
-    private static final int ME = 0;
-   //private static GeoTranslator mTranslator;
+    public static final int OTHER = 1;
+    public static final int ME = 0;
+    private MyApplication app;
 
     public ConversationCursorAdapter(Context context, Cursor c, boolean autoRequery ,Contact contact) {
         super(context, c, autoRequery);
         this.contact = contact;
-
+        app = (MyApplication)context.getApplicationContext();
         String ownerPhotoUri = Utils.getOwnersImage(context);
-
 
         if(ownerPhotoUri == null){
             OWNER_IMAGE = BitmapFactory.decodeResource(context.getResources(),
@@ -151,7 +155,11 @@ public class ConversationCursorAdapter extends CursorAdapter {
             holder.deliveryStatusView.setTextColor(Color.GRAY);
         }
 
-        holder.messageView.setText(message.getText());
+        String text = message.getText();
+//        if(mNeedTranslate){
+//            text = app.translateSMS(text);
+//        }
+        holder.messageView.setText(text);
         CharSequence formattedTime = DateUtils.getRelativeTimeSpanString(message.getDate().getTime(),
                 System.currentTimeMillis(), DateUtils.MINUTE_IN_MILLIS, DateUtils.FORMAT_ABBREV_ALL);
         holder.timeView.setText(formattedTime);

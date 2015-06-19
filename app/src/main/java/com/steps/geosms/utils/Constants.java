@@ -12,6 +12,14 @@ import android.provider.ContactsContract;
 @SuppressWarnings("unused")
 public interface Constants {
 
+    interface TranslatorData{
+        String words = "words.dat";
+        String shis = "shis.dat";
+        String chis = "chis.dat";
+        String dzis = "dzis.dat";
+        String exceptions = "exceptions.dat";
+    }
+
     String NOTIFICATION_ARRAY = "notification_array";
 
     interface URIS{
@@ -173,6 +181,8 @@ public interface Constants {
     }
 
     String NOTIFICATION_TYPE = "notification_type";
+
+    String PREF_THREAD_TRANSLATE = "PREF_THREAD_TRANSLATE";
 
 
 //    /**

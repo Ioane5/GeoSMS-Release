@@ -51,7 +51,7 @@ public class ConversationsListAdapter extends ArrayAdapter<Conversation> {
                 R.mipmap.ic_no_image);
         // make it circle like.
         DEFAULT_IMAGE = Utils.getCircleBitmap(DEFAULT_IMAGE);
-        mImageDownloader = new AsyncImageDownloader(context, 80);
+        mImageDownloader = new AsyncImageDownloader(context, 100);
     }
 
     @Override

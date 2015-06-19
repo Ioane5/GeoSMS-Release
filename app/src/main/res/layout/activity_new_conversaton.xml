@@ -1,140 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:layout_height="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:divider="@drawable/divider"
-    android:showDividers="middle"
+    android:gravity="top"
     android:orientation="vertical">
 
-    <TextView
+    <!--<TextView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:padding="10dp"-->
+    <!--android:textSize="20sp"-->
+    <!--android:text="@string/To"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:id="@+id/empty_chosen_contact_view"-->
+    <!--/>-->
+    <com.steps.geosms.cusromViews.GridViewMaxHeight
+        android:id="@+id/gridView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:textSize="20sp"
-        android:text="@string/To"
         android:layout_gravity="center"
-        android:id="@+id/empty_chosen_contact_view"
-        />
-
-    <GridView
         android:animateLayoutChanges="true"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:background="@color/themePrimary"
+
+        android:clipToPadding="false"
+        android:columnWidth="150dp"
+
+        android:horizontalSpacing="10dp"
+        android:numColumns="auto_fit"
+        android:overScrollMode="never"
+
+        android:paddingBottom="5dp"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
 
-        android:columnWidth="150dp"
-        android:numColumns="auto_fit"
+        android:paddingTop="5dp"
+        android:scrollbarStyle="outsideInset"
         android:stretchMode="columnWidth"
 
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:clipToPadding="false"
-
-        android:horizontalSpacing="10dp"
         android:verticalSpacing="3dp"
-        android:layout_gravity="center"
-
-        android:scrollbarStyle="outsideInset"
-        android:id="@+id/gridView"
-        />
-
-    <LinearLayout
-         android:background="@color/themePrimary"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:orientation="horizontal"
-         android:focusableInTouchMode="true">
-
-        <EditText
-            android:id="@+id/search"
-            android:layout_gravity="center"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:hint="@string/Name_Number"
-            android:textColorHint="@color/white"
-
-            android:textColor="@color/white"
-            android:singleLine="true"
-            android:textCursorDrawable="@null"
-            android:padding="10dp"
-
-            android:background="@color/transparent"
-            android:layout_height="wrap_content"/>
-         
-         <Button
-             android:id="@+id/remove_text_button"
-             android:layout_width="45dp"
-             android:layout_height="45dp"
-             android:background="@mipmap/ic_x"
-             android:visibility="gone"
-             />
-
-        <ToggleButton
-            android:id="@+id/change_enter_mode"
-            android:layout_height="45dp"
-            android:layout_width="45dp"
-            android:gravity="center"
-            android:layout_gravity="center"
-
-            android:checked="true"
-            android:textOn=""
-            android:textOff=""
-            android:background="@drawable/keyboard_mode_toggle"
-           />
-
-         <ImageButton
-             android:id="@+id/get_contact"
-             android:layout_height="45dp"
-             android:layout_width="45dp"
-             android:gravity="center"
-             android:layout_gravity="center"
-             android:background="@mipmap/ic_person_add"
-             android:contentDescription="@string/add_contact_from_external"/>
-     </LinearLayout>
-
+        app:maxHeight="80dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:orientation="horizontal"
-        android:background="@color/theme_gray_white"
+        android:animateLayoutChanges="true"
+        android:background="@color/themePrimary"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/search"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+
+            android:hint="@string/Name_Number"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:textColor="@color/white"
+
+            android:textColorHint="@color/white"
+            android:textCursorDrawable="@drawable/white_cursor" />
+
+        <Button
+            android:id="@+id/remove_text_button"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@mipmap/ic_x"
+            android:visibility="gone" />
+
+        <ToggleButton
+            android:id="@+id/change_enter_mode"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:background="@drawable/keyboard_mode_toggle"
+
+            android:checked="true"
+            android:gravity="center"
+            android:textOff=""
+            android:textOn="" />
+
+        <ImageButton
+            android:id="@+id/get_contact"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:background="@mipmap/ic_person_add"
+            android:contentDescription="@string/add_contact_from_external"
+            android:gravity="center" />
+    </LinearLayout>
+
+
+    <LinearLayout
         android:id="@+id/unknown_contact"
-        android:padding="10dp">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/theme_gray_white"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:visibility="gone">
 
         <TextView
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textColor="@color/theme_grey"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:text="@string/send_to"
-            />
+            android:textColor="@color/theme_grey"
+            android:textSize="20sp" />
 
         <TextView
+            android:id="@+id/unknown_contact_num"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/theme_grey"
-            android:gravity="center"
             android:layout_gravity="center"
-            android:textSize="20sp"
-            android:id="@+id/unknown_contact_num"
-            />
+            android:gravity="center"
+            android:textColor="@color/theme_grey"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <ListView
-        android:animateLayoutChanges="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
+        android:id="@+id/contacts_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:animateLayoutChanges="true"
         android:choiceMode="none"
-        android:id="@+id/contacts_list"
         android:fastScrollEnabled="true"
-        />
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
 
 </LinearLayout>

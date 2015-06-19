@@ -1,5 +1,6 @@
 package com.steps.geosms.newConversation;
 
+import android.app.ActionBar;
 import android.app.Dialog;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
@@ -24,6 +25,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.animation.Animation;
+import android.view.animation.Transformation;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -67,6 +72,7 @@ public class NewConversationActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_conversaton);
 
+        getSupportActionBar().setElevation(0);
         contactsAdapter = new ContactsCursorAdapter(this, null, 0);
         chosenContacts = new ArrayList<>();
 
@@ -81,37 +87,51 @@ public class NewConversationActivity extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
                 unknownNumber.setVisibility(View.GONE);
-                TextView textView = (TextView)unknownNumber.findViewById(R.id.unknown_contact_num);
-                if(TextUtils.isEmpty(textView.getText()))
+                TextView textView = (TextView) unknownNumber.findViewById(R.id.unknown_contact_num);
+                if (TextUtils.isEmpty(textView.getText()))
                     return;
                 String phoneNumber = textView.getText().toString();
 
                 Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
-                Cursor c = getContentResolver().query(uri, null , null, null, null);
-                if(c == null) return;
+                Cursor c = getContentResolver().query(uri, null, null, null, null);
+                if (c == null) return;
                 Contact contact;
-                if(c.moveToFirst()){
+                if (c.moveToFirst()) {
                     String num = c.getString(c.getColumnIndex(ContactsContract.PhoneLookup.NUMBER));
                     String name = c.getString(c.getColumnIndex(ContactsContract.PhoneLookup.DISPLAY_NAME));
                     String photoUri = c.getString(c.getColumnIndex(ContactsContract.PhoneLookup.PHOTO_URI));
-                    contact = new Contact(name,photoUri,num,null);
+                    contact = new Contact(name, photoUri, num, null);
 
-                    if(photoUri != null){
+                    if (photoUri != null) {
                         Bitmap image = Utils.getCircleBitmap(Utils.getPhotoFromURI(photoUri,
                                 getBaseContext(), 40));
                         contact.setPhoto(image);
                     }
 
-                }else {
-                    contact = new Contact(null,null,phoneNumber,null);
+                } else {
+                    contact = new Contact(null, null, phoneNumber, null);
                 }
-                if(!Contact.containsByAddress(chosenContacts, contact.getAddress()))
+                if (!Contact.containsByAddress(chosenContacts, contact.getAddress()))
                     selectContact(contact);
                 c.close();
             }
         });
+        new GridView(this){
+            @Override
+            protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+                super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+            }
+        };
 
         chosenContactsGV = (GridView)findViewById(R.id.gridView);
+
+//        chosenContactsGV.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+//            @Override
+//            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+//                expand(chosenContactsGV);
+//            }
+//        });
+
         chosenContactsAdapter = new ChosenContactsAdapter(getBaseContext(),R.layout.contact_bubble);
         chosenContactsGV.setAdapter(chosenContactsAdapter);
         chosenContactsGV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -121,7 +141,7 @@ public class NewConversationActivity extends AppCompatActivity implements
                 createContactRemoveDialog(contact).show();
             }
         });
-        chosenContactsGV.setEmptyView(findViewById(R.id.empty_chosen_contact_view));
+       // chosenContactsGV.setEmptyView(findViewById(R.id.empty_chosen_contact_view));
 
 
         final EditText searchView = (EditText)findViewById(R.id.search);
@@ -390,4 +410,34 @@ public class NewConversationActivity extends AppCompatActivity implements
             removeContact(contact);
         }
     }
+
+    public static void expand(final View v) {
+        v.measure(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT);
+        final int targetHeight = v.getMeasuredHeight();
+
+        v.getLayoutParams().height = 0;
+        v.setVisibility(View.VISIBLE);
+        Animation a = new Animation()
+        {
+            @Override
+            protected void applyTransformation(float interpolatedTime, Transformation t) {
+                v.getLayoutParams().height = interpolatedTime == 1
+                        ? ViewGroup.LayoutParams.WRAP_CONTENT
+                        : (int)(targetHeight * interpolatedTime);
+                v.requestLayout();
+            }
+
+            @Override
+            public boolean willChangeBounds() {
+                return true;
+            }
+        };
+
+        // 1dp/ms
+        a.setDuration((int)(targetHeight / v.getContext().getResources().getDisplayMetrics().density));
+        v.startAnimation(a);
+    }
+
+
+
 }

@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,6 +18,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.Telephony;
 import android.support.v7.app.AppCompatDialog;
@@ -30,15 +33,20 @@ import com.steps.geosms.conversation.ContactsArrayAdapter;
 import com.steps.geosms.objects.Contact;
 import com.steps.geosms.objects.Conversation;
 import com.steps.geosms.objects.SMS;
+import com.steps.translator.GeoTranslator;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Class Utils
@@ -112,6 +120,68 @@ public class Utils {
         new Thread(new AsyncConversationCacher(context,conversations)).start();
     }
 
+    public static GeoTranslator getTranslator(Context context) throws IOException {
+        File words = new File(Constants.TranslatorData.words);
+        File shis = new File(Constants.TranslatorData.shis);
+        File chis = new File(Constants.TranslatorData.chis);
+        File dzis = new File(Constants.TranslatorData.dzis);
+        File exceptions = new File(Constants.TranslatorData.exceptions);
+
+        if(words.exists() && shis.exists() && chis.exists() && dzis.exists() && exceptions.exists()){
+            return GeoTranslator.load(words,shis,chis,dzis,exceptions);
+        }else{
+            copyAssets(context);
+            return GeoTranslator.load(context.openFileInput(Constants.TranslatorData.words),
+                    context.openFileInput(Constants.TranslatorData.shis),
+                    context.openFileInput(Constants.TranslatorData.chis),
+                    context.openFileInput(Constants.TranslatorData.dzis),
+                    context.openFileInput(Constants.TranslatorData.exceptions));
+        }
+    }
+
+    private static void copyAssets(Context context) {
+        AssetManager assetManager = context.getAssets();
+        String[] files = new String[]{Constants.TranslatorData.words,
+                                    Constants.TranslatorData.shis,
+                                    Constants.TranslatorData.chis,
+                                    Constants.TranslatorData.dzis,
+                                    Constants.TranslatorData.exceptions};
+        for(String filename : files) {
+            InputStream in = null;
+            OutputStream out = null;
+            try {
+                in = assetManager.open(filename);
+                out = context.openFileOutput(filename,Context.MODE_PRIVATE);
+                copyFile(in, out);
+            } catch(IOException e) {
+                Log.e("tag", "Failed to copy asset file: " + filename, e);
+            }
+            finally {
+                if (in != null) {
+                    try {
+                        in.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (out != null) {
+                    try {
+                        out.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
+    private static void copyFile(InputStream in, OutputStream out) throws IOException {
+        byte[] buffer = new byte[1024];
+        int read;
+        while((read = in.read(buffer)) != -1){
+            out.write(buffer, 0, read);
+        }
+    }
+
 
     private static class AsyncConversationCacher implements Runnable{
 
@@ -171,6 +241,7 @@ public class Utils {
         paint.setColor(context.getResources().getColor(R.color.themeAccent));
 
         Paint textPaint = new Paint();
+        textPaint.setAntiAlias(true);
         Rect textBounds = new Rect();
         textPaint.setTextSize((int)(size/2.5));
         textPaint.setTextAlign(Paint.Align.CENTER);
@@ -178,7 +249,6 @@ public class Utils {
         textPaint.setColor(Color.WHITE);
 
         canvas.drawRoundRect(rectF, pixels, pixels, paint);
-
         canvas.drawText(txt, canvas.getWidth()/2,
                 ((canvas.getHeight() / 2) - ((textPaint.descent() + textPaint.ascent()) / 2))
                 , textPaint);
@@ -292,6 +362,21 @@ public class Utils {
         }
     }
 
+
+    public static void dumpIntent(Intent i){
+
+        Bundle bundle = i.getExtras();
+        if (bundle != null) {
+            Set<String> keys = bundle.keySet();
+            Iterator<String> it = keys.iterator();
+            Log.e(TAG,"Dumping Intent start");
+            while (it.hasNext()) {
+                String key = it.next();
+                Log.e(TAG,"[" + key + "=" + bundle.get(key)+"]");
+            }
+            Log.e(TAG,"Dumping Intent end");
+        }
+    }
 
 
 }

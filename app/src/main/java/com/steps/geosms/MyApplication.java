@@ -16,9 +16,10 @@ import java.util.Locale;
  */
 public class MyApplication extends Application{
 
-
     @Override
     public void onCreate(){
+//        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+//        prefs.registerOnSharedPreferenceChangeListener(this);
         updateLanguage(this);
         super.onCreate();
     }
@@ -44,4 +45,32 @@ public class MyApplication extends Application{
         ctx.getResources().updateConfiguration(cfg, null);
     }
 
+//    public String translateSMS(String sms){
+//        try{
+//            if(mTranslator != null)
+//                mTranslator.geoToLat(sms);
+//            return sms;
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            return sms;
+//        }
+//    }
+
+//    @Override
+//    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+//        if("enable_geoTranslate".equals(key)){
+//            if(sharedPreferences.getBoolean("enable_geoTranslate",false)){
+//                if(mTranslator == null){
+//                    try{
+//                        mTranslator = Utils.getTranslator(this);
+//                    }catch (Exception e){
+//                        e.printStackTrace();
+//                        mTranslator = null;
+//                    }
+//                }
+//            }else {
+//                mTranslator = null;
+//                }
+//        }
+//    }
 }

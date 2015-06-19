@@ -12,6 +12,16 @@
 
     </style>
 
+    <style name="NoActionBar" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="actionModeBackground">@color/themePrimary</item>
+        <item name="colorPrimary">@color/themePrimary</item>
+        <item name="colorPrimaryDark">@color/themePrimaryDark</item>
+        <item name="colorAccent">@color/themeAccent</item>
+    </style>
+
     <!--
 
  <item name="actionBarStyle">@style/MyActionBar</item>

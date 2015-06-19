@@ -33,6 +33,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -438,6 +439,30 @@ public class ConversationActivity extends MyActivity implements LoaderManager.Lo
         for(String address : Contact.toAddressArray(contacts))
             smsManager.sendSms(sms, address ,thread_id, isSendWeb());
     }
+
+    /**
+     *
+     *    @Override
+    public void onClick(View v) {
+    if(v == null)
+    return;
+    final ViewHolder holder = (ViewHolder)v.getTag();
+    if(holder == null)
+    return;
+    AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+    builder.setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
+    public void onClick(DialogInterface dialog, int id) {}
+    })
+    .setNegativeButton(R.string.resend, new DialogInterface.OnClickListener() {
+    public void onClick(DialogInterface dialog, int id) {
+    SMS sms = new SMS((Cursor) getItem(holder.pos));
+
+    }
+    })
+    .setTitle(R.string.resend_request)
+    .setMessage(R.string.resend_request_body);
+    }
+     */
 
     /**
      * Class for managing clicked send button.

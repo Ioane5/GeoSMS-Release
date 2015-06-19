@@ -80,4 +80,8 @@
     <string name="Magtifun">Magtifun</string>
     <string name="password">პაროლი</string>
     <string name="username">სახელი</string>
+    <string name="pref_enable_geoTranslate">SMS თარგმანი</string>
+    <string name="resend">გაგზავნა</string>
+    <string name="resend_request">თავიდან გაგზავნა</string>
+    <string name="resend_request_body">გინდათ ხელახლა გაგზავნა?</string>
 </resources>

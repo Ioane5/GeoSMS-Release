@@ -40,6 +40,7 @@
         android:scrollbarStyle="outsideInset"
         android:stretchMode="columnWidth"
 
+        android:listSelector="@drawable/bubble_background"
         android:verticalSpacing="3dp"
         app:maxHeight="80dp" />
 

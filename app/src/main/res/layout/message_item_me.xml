@@ -1,80 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/message_item"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/message_item_me"
-    android:baselineAligned="false">
+    android:baselineAligned="false"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="horizontal"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp">
 
     <LinearLayout
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_width="wrap_content"
+        android:layout_width="70dp"
         android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:orientation="vertical">
 
         <TextView
-            android:textColor="@color/color_text_selected_white"
-            android:layout_gravity="top"
-            android:textAllCaps="true"
-            android:textSize="8sp"
             android:id="@+id/time_view"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:textColor="@color/color_text_date"
+            android:textSize="9sp" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <TextView
-            android:textColor="@color/color_text_selected_white"
-            android:layout_width="wrap_content"
+            android:id="@+id/delivery_status_view"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="9sp"
-            android:id="@+id/delivery_status_view"/>
+            android:gravity="center_horizontal"
+            android:paddingTop="5dp"
+            android:textColor="@color/color_text_date"
+            android:textSize="9sp" />
+
+
+        <ProgressBar
+            android:id="@+id/sending_progress"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_gravity="center"
+            android:indeterminate="true" />
+
+        <ImageButton
+            android:onClick="resend"
+            android:id="@+id/failed_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="@drawable/failed_button" />
     </LinearLayout>
 
 
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:minHeight="50dp">
 
         <TextView
-            android:layout_gravity="fill|end"
-            android:padding="10dp"
-            android:textColor="@color/color_text_selected_white"
+            android:id="@+id/message_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:lineSpacingExtra="8sp"
-            android:textSize="16sp"
-            android:id="@+id/message_text_view"
+            android:layout_gravity="fill|end"
             android:layout_toLeftOf="@+id/message_contact_photo"
-            android:layout_toStartOf="@+id/message_contact_photo" />
+            android:layout_toStartOf="@+id/message_contact_photo"
+            android:lineSpacingExtra="8sp"
+            android:padding="8dp"
+            android:textColor="@color/color_text_selected_white"
+            android:textSize="16sp" />
 
         <ImageView
-            android:contentDescription="@string/image"
+            android:id="@+id/message_contact_photo"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="10dp"
-            android:drawingCacheQuality="low"
-            android:background="@mipmap/ic_no_image"
-            android:id="@+id/message_contact_photo"
-            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@mipmap/ic_no_image"
+            android:contentDescription="@string/image"
+            android:drawingCacheQuality="low" />
 
     </RelativeLayout>
-
-
 
 
 </LinearLayout>

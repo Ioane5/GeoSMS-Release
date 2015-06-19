@@ -317,6 +317,20 @@ public class ConversationActivity extends MyActivity implements LoaderManager.Lo
         SmsManagerService.updateThreadId(SmsManagerService.THREAD_ID_NONE);
     }
 
+    public void resend(View view){
+        final SMS sms = (SMS)view.getTag();
+        if(sms == null)
+            return;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                getContentResolver().delete(Constants.URIS.SMS, "_id=?",
+                        new String[]{"" + sms.getId()});
+            }
+        }).start();
+        sendMessage(sms);
+    }
+
     /**
      * This method initializes conversation.
      *

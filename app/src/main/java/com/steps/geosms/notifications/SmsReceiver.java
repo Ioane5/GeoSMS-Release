@@ -29,10 +29,8 @@ public class SmsReceiver extends WakefulBroadcastReceiver{
         if(action.contains(Constants.Actions.SMS_RECEIVED_OLD) && Build.VERSION.SDK_INT < 19)
             abortBroadcast();
 
-
         intent.putExtra("result",getResultCode());
         intent.setClass(context, SmsManagerService.class);
-
         startWakefulService(context, intent);
     }
 

@@ -25,7 +25,6 @@
     <item name="conversation_last_msg" type="color">@color/theme_msg_color</item>
     <item name="conversation_date" type="color">#808080</item>
 
-
     <item name="theme_msg_color" type="color">#ff4e4e4e</item>
     <item name="themePrimary" type="color">#0091EA</item>
     <item name="themeAccent" type="color">#2198F3</item>
@@ -35,14 +34,15 @@
     <item name="themeLight2" type="color">#77BEF5</item>
     <item name="themeLightExtra" type="color">#E3F2FD</item>
     <item name="theme_selected" type="color">@color/themePrimaryDark</item>
-
     <color name="theme_grey">#ffa4a4a4</color>
     <color name="transparent_gray">#c9676767</color>
+    <color name="transparent_gray_2">#2a676767</color>
     <item name="conversations_list" type="color">@color/white</item>
 
     <color name="transparent" type="color">#00000000</color>
     <color name="themeAccent2">#fff9c4</color>
-
+    <color name="theme_transparent_red">#37ff5722</color>
+    <color name="theme_red">@color/themePrimary</color>
 
     <integer-array name="androidcolors">
         <item>@color/blue</item>

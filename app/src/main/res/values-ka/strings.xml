@@ -84,4 +84,6 @@
     <string name="resend">გაგზავნა</string>
     <string name="resend_request">თავიდან გაგზავნა</string>
     <string name="resend_request_body">გინდათ ხელახლა გაგზავნა?</string>
+    <string name="balance">ბალანსი</string>
+    <string name="show_balance">ბალანსის ჩვენება</string>
 </resources>

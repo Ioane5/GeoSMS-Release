@@ -86,4 +86,6 @@
     <string name="resend">Resend</string>
     <string name="resend_request">Resend Request</string>
     <string name="resend_request_body">Do you want to Resend?</string>
+    <string name="show_balance">Show balance</string>
+    <string name="balance">Balance</string>
 </resources>

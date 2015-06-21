@@ -20,6 +20,7 @@ public class MyPreferencesManager {
     public static String WEBSMS_USERNAME = "websms_username";
     public static String WEBSMS_PASSWORD = "websms_password";
     public static String WEBSMS_COOKIE = "websms_cookie";
+    public static String WEBSMS_BALANCE = "websms_balance";
     public static int MAGTIFUN_ID = 1;
     public static int GEOCELL_ID = 191;
 
@@ -45,9 +46,10 @@ public class MyPreferencesManager {
             String username = preferences.getString(WEBSMS_USERNAME,null);
             String password = preferences.getString(WEBSMS_PASSWORD,null);
             String cookie = preferences.getString(WEBSMS_COOKIE,"");
+            String balance = preferences.getString(WEBSMS_BALANCE,"?");
 
             Log.i(TAG,"userName " + username );
-            return new MagtifunWebSms(username,password,cookie,ctx);
+            return new MagtifunWebSms(username,password,cookie,balance,ctx);
         }else if(webSmsId == GEOCELL_ID){
             Log.w(TAG,"geocell websms is not ready");
             return null;
@@ -74,6 +76,18 @@ public class MyPreferencesManager {
     public static boolean isWebSmsEnabled(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext())
                 .getBoolean(WEB_SMS_ENABLED,true);
+    }
+
+    public static void saveBalance(Context context,String balance){
+        SharedPreferences.Editor editor = getWebSmsPreferences(context).edit();
+        editor.putString(WEBSMS_BALANCE,balance);
+        editor.commit();
+    }
+
+
+    public static String getWebSmsBalance(Context context){
+        return PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext())
+                .getString(WEBSMS_BALANCE,"?");
     }
 
 }

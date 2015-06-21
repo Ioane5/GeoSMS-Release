@@ -14,8 +14,11 @@
 
     <item android:id="@+id/people_in_this_conversation"
         android:title="@string/people"
-        android:orderInCategory="10"
+        android:orderInCategory="3"
         />
 
-
+    <item android:id="@+id/action_show_balance"
+        android:title="@string/show_balance"
+        android:orderInCategory="2"
+        />
 </menu>

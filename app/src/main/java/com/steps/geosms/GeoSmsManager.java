@@ -145,6 +145,15 @@ public class GeoSmsManager {
 
     }
 
+    public String getWebSmsBalance(){
+        if(webSmsManager == null)
+            return null;
+        if(webSmsManager.authenticate())
+            return webSmsManager.getBalance();
+        else{
+            return MyPreferencesManager.getWebSmsBalance(context);
+        }
+    }
 
     public void saveDraft(SMS sms){
 

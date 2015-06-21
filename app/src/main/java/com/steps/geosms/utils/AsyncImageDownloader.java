@@ -88,9 +88,14 @@ public class AsyncImageDownloader {
 
                     // new task arrived.
                     Bitmap bitmap;
-                    if(task.url != null)
-                        bitmap = Utils.getCircleBitmap(Utils.getPhotoFromURI(task. url, mContext, mImageSize));
-                    else
+                    if(task.url != null){
+                        bitmap = Utils.getPhotoFromURI(task.url, mContext, mImageSize);
+                        if(bitmap == null){
+                            bitmap = Utils.createTextBitmap(task.text, mImageSize,mContext);
+                        }else
+                            bitmap = Utils.getCircleBitmap(bitmap);
+
+                    } else
                         bitmap = Utils.createTextBitmap(task.text, mImageSize,mContext);
 
 

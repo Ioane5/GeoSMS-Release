@@ -1,16 +1,17 @@
 package com.steps.geosms.websms;
+
 /**
  * Class WebSms interface
  * Created by Ioane on 3/5/2015.
  */
 public interface WebSms {
 
-    public static final String USER_AGENT_VALUE = "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.111 Safari/537.36";
+    final String USER_AGENT_VALUE = "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.111 Safari/537.36";
 
-    public static interface FIELDS{
-        String GET ="GET";
-        String POST ="POST";
-        String HEAD ="HEAD";
+    interface FIELDS {
+        String GET = "GET";
+        String POST = "POST";
+        String HEAD = "HEAD";
 
         String USER = "user";
         String PASSWORD = "password";
@@ -20,26 +21,29 @@ public interface WebSms {
     }
 
 
+    void updateBalance();
 
-    public abstract boolean authenticate();
+    boolean authenticate();
 
-    public abstract boolean sendSms(String message,String address);
+    boolean sendSms(String message, String address);
 
-    public abstract int getNumMessages();
+    int getNumMessages();
 
-    public String getCookie();
+    String getBalance();
 
-    public void setCookie(String cookie);
+    String getCookie();
 
-    public String getPassword();
+    void setCookie(String cookie);
 
-    public void setPassword(String password);
+    String getPassword();
 
-    public String getUserName();
+    void setPassword(String password);
 
-    public void setUserName(String userName);
+    String getUserName();
 
-    public String getAccountName();
+    void setUserName(String userName);
 
-    public void setAccountName(String name);
+    String getAccountName();
+
+    void setAccountName(String name);
 }

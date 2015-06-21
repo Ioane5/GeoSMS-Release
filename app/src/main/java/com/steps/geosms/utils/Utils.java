@@ -232,19 +232,18 @@ public class Utils {
         Canvas canvas = new Canvas(output);
 
         final int pixels = Constants.IMAGE_SIZE;
-        final Paint paint = new Paint();
+        final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         final Rect rect = new Rect(0, 0, size, size);
         final RectF rectF = new RectF(rect);
 
-        paint.setAntiAlias(true);
         canvas.drawARGB(0, 0, 0, 0);
         paint.setColor(context.getResources().getColor(R.color.themeAccent));
 
-        Paint textPaint = new Paint();
-        textPaint.setAntiAlias(true);
+        Paint textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         Rect textBounds = new Rect();
         textPaint.setTextSize((int)(size/2.5));
         textPaint.setTextAlign(Paint.Align.CENTER);
+        textPaint.setStyle(Paint.Style.FILL);
         textPaint.getTextBounds(txt, 0, txt.length(), textBounds);
         textPaint.setColor(Color.WHITE);
 

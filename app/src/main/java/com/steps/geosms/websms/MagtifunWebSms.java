@@ -25,8 +25,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
+ * Class MagtifunWebSms
  * Created by Ioane on 3/5/2015.
  */
 public class MagtifunWebSms implements WebSms {
@@ -38,43 +41,68 @@ public class MagtifunWebSms implements WebSms {
     public static final String HOST = "www.magtifun.ge";
     public static final String UTF_8 = "UTF-8";
 
+    public static final Pattern BALANCE_MATCHER = Pattern
+            .compile(
+                    "თქვენს ანგარიშზეა .*?english.*?>(\\d{1,})<.*?კრედიტი.*?და .*?english.*?>(\\d{1,})<.*?ლარი",
+                    Pattern.DOTALL);
+
     private String cookie;
     private String userName;
     private String password;
     private String accountName;
+    private String mBalance;
 
     /**
      * Overriding webSms client must initialize this variable
      * in static block.
      */
     private static String LOGIN_URL;
-
-    /**
-     * Overriding webSms client must initialize this variable
-     * in static block.
-     */
     private static String SEND_URL;
+    private static String CHECK_BALANCE_URL;
 
     static {
         LOGIN_URL = "/index.php?page=11&lang=ge";
         SEND_URL = "/scripts/sms_send.php";
+        CHECK_BALANCE_URL = "/index.php?page=2&lang=ge";
     }
 
     private Context ctx;
 
-    public MagtifunWebSms(String userName, String password,String cookie,Context ctx) {
+    public MagtifunWebSms(String userName,String password, String cookie,String balance, Context ctx) {
         this.userName = userName;
         this.password = password;
         this.cookie = cookie;
         accountName = Constants.MAGTIFUN;
+        this.mBalance = balance;
         this.ctx = ctx;
+    }
+
+    public void updateBalance(){
+        authenticate(); // we know that authenticate can bring us balance.
+    }
+
+    private void updateBalance(String content) {
+        Matcher matcher = BALANCE_MATCHER.matcher(content);
+        String balance = null;
+        if(matcher.find()){
+            if(matcher.groupCount() != 2){
+                balance = "?";
+            }else{
+                balance = matcher.group(1) + " (" + matcher.group(2) + "ლ)";
+            }
+        }else{
+            Log.w(TAG, "COULDN'T PARSE BALANCE");
+            balance = "?";
+        }
+        Log.i(TAG,"BALANCE :  " + balance);
+        mBalance = balance;
     }
 
     /**
      * This method authenticates user with username and password.
      * also sets cookie variable.
-     * @return false if authentication was not successful.
      *
+     * @return false if authentication was not successful.
      */
     @Override
     public boolean authenticate() {
@@ -87,36 +115,39 @@ public class MagtifunWebSms implements WebSms {
             nameValuePairs.add(new BasicNameValuePair("act", "1"));
 
 
-            HttpPost httppost =  new HttpPost(LOGIN_URL);
-            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs,UTF_8));
-            httppost.setHeader(new BasicHeader("Content-type" , "application/x-www-form-urlencoded"));
+            HttpPost httppost = new HttpPost(LOGIN_URL);
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, UTF_8));
+            httppost.setHeader(new BasicHeader("Content-type", "application/x-www-form-urlencoded"));
 
 
-            HttpResponse response = httpclient.execute(new HttpHost(HOST),httppost);
+            HttpResponse response = httpclient.execute(new HttpHost(HOST), httppost);
 
             StatusLine statusLine = response.getStatusLine();
 
-            if(statusLine.getStatusCode() == HttpStatus.SC_OK){
+            if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
 
                 response.getEntity().writeTo(out);
                 String responseString = out.toString();
-                if(!parseLoginHTML(responseString)){
+                if (!parseLoginHTML(responseString)) {
                     return false;
                 }
+                updateBalance(responseString);
+                MyPreferencesManager.saveBalance(ctx,mBalance);
+
                 Header[] headers = response.getHeaders(FIELDS.SET_COOKIE);
                 // This will find out cookie
                 setCookieFromHeader(headers);
                 out.close();
                 return true;
                 //..more logic
-            } else{
+            } else {
                 //Closes the connection.
                 response.getEntity().getContent().close();
                 throw new IOException(statusLine.getReasonPhrase());
             }
-        }catch (Exception e){
-            Log.i(TAG,"exception");
+        } catch (Exception e) {
+            Log.i(TAG, "exception");
             e.printStackTrace();
             return false;
         }
@@ -125,21 +156,22 @@ public class MagtifunWebSms implements WebSms {
     /**
      * This method just checks html
      * if user has logged in.
+     *
      * @param html html to check
      * @return true if login successful.
      */
-    private boolean parseLoginHTML(String html){
-        return  html.contains("გაგზავნილი შეტყობინებები");
+    private boolean parseLoginHTML(String html) {
+        return html.contains("გაგზავნილი შეტყობინებები");
     }
 
-    private void setCookieFromHeader(Header[] cookies){
-        for (Header header:cookies) {
+    private void setCookieFromHeader(Header[] cookies) {
+        for (Header header : cookies) {
             String ck = header.getValue();
-            if (ck.contains("User=")){
-                StringTokenizer tokenizer = new StringTokenizer(ck," ");
-                while (tokenizer.hasMoreTokens()){
+            if (ck.contains("User=")) {
+                StringTokenizer tokenizer = new StringTokenizer(ck, " ");
+                while (tokenizer.hasMoreTokens()) {
                     String token = tokenizer.nextToken();
-                    if(token.length() > 6) {
+                    if (token.length() > 6) {
                         this.cookie = token;
                         MyPreferencesManager.saveCookie(ctx, this.cookie);
                         return;
@@ -150,46 +182,46 @@ public class MagtifunWebSms implements WebSms {
     }
 
     @Override
-    public boolean sendSms(String message,String address) {
-        if(TextUtils.isEmpty(cookie) && !authenticate()){
+    public boolean sendSms(String message, String address) {
+        if (TextUtils.isEmpty(cookie) && !authenticate()) {
             // we couldn't login.
             return false;
         }
         try {
-            address = address.replaceAll("\\s+","");
+            address = address.replaceAll("\\s+", "");
             HttpClient httpclient = new DefaultHttpClient();
 
             List<NameValuePair> nameValuePairs = new ArrayList<>(7);
             nameValuePairs.add(new BasicNameValuePair(MESSAGE_BODY, message));
             nameValuePairs.add(new BasicNameValuePair(SEND_ADDRESS, address));
 
-            HttpPost httppost =  new HttpPost(SEND_URL);
+            HttpPost httppost = new HttpPost(SEND_URL);
             httppost.addHeader(new BasicHeader(FIELDS.COOKIE, this.cookie));
-            httppost.addHeader(new BasicHeader("Content-type" , "application/x-www-form-urlencoded"));
+            httppost.addHeader(new BasicHeader("Content-type", "application/x-www-form-urlencoded"));
 
-            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs,UTF_8));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, UTF_8));
 
-            HttpResponse response = httpclient.execute(new HttpHost(HOST),httppost);
+            HttpResponse response = httpclient.execute(new HttpHost(HOST), httppost);
             StatusLine statusLine = response.getStatusLine();
 
-            if(statusLine.getStatusCode() == HttpStatus.SC_OK){
+            if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
 
                 response.getEntity().writeTo(out);
                 String responseString = out.toString();
 
-                Log.i(TAG,responseString);
+                Log.i(TAG, responseString);
 
                 out.close();
                 // if we got success response sendSms was successfull.
                 return !TextUtils.isEmpty(responseString) && responseString.equals("success");
-            } else{
+            } else {
                 //Closes the connection.
                 response.getEntity().getContent().close();
                 throw new IOException(statusLine.getReasonPhrase());
             }
-        }catch (Exception e){
-            Log.i(TAG,"exception");
+        } catch (Exception e) {
+            Log.i(TAG, "exception");
             e.printStackTrace();
             return false;
         }
@@ -198,6 +230,11 @@ public class MagtifunWebSms implements WebSms {
     @Override
     public int getNumMessages() {
         return 0;
+    }
+
+    @Override
+    public String getBalance() {
+        return mBalance;
     }
 
     @Override

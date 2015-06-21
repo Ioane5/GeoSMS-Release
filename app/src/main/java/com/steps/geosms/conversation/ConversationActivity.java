@@ -39,6 +39,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.ioane.sharvadze.geosms.R;
@@ -292,6 +293,7 @@ public class ConversationActivity extends MyActivity implements LoaderManager.Lo
 
         if(!MyPreferencesManager.isWebSmsEnabled(getBaseContext())){
             webUseToggle.setVisibility(View.GONE);
+            supportInvalidateOptionsMenu();
         }else {
             webUseToggle.setVisibility(View.VISIBLE);
         }
@@ -605,9 +607,11 @@ public class ConversationActivity extends MyActivity implements LoaderManager.Lo
         if(contacts != null && contacts.size() > 1){
             MenuItem item = menu.findItem(R.id.action_call);
             item.setVisible(false);
-            supportInvalidateOptionsMenu();
         }
-
+        if(!MyPreferencesManager.isWebSmsEnabled(getBaseContext())){
+            MenuItem item = menu.findItem(R.id.action_show_balance);
+            item.setVisible(false);
+        }
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -622,7 +626,24 @@ public class ConversationActivity extends MyActivity implements LoaderManager.Lo
         }else if(item.getItemId() == R.id.people_in_this_conversation){
             Utils.buildContactsDialog(ConversationActivity.this,contacts).show();
             return true;
-        }else
+        }else if(item.getItemId() == R.id.action_show_balance){
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    final String balance = smsManager.getWebSmsBalance();
+                    final String titleBalance = getString(R.string.balance);
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(ConversationActivity.this,
+                                    titleBalance + " : " + balance,
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+
+                }
+            }).start();
+        }
             return super.onOptionsItemSelected(item);
     }
 }

@@ -77,8 +77,8 @@ public class MagtifunWebSms implements WebSms {
         this.ctx = ctx;
     }
 
-    public void updateBalance(){
-        authenticate(); // we know that authenticate can bring us balance.
+    public boolean updateBalance(){
+        return authenticate(); // we know that authenticate can bring us balance.
     }
 
     private void updateBalance(String content) {

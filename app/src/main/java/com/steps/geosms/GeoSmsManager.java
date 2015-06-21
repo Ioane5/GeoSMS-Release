@@ -155,6 +155,10 @@ public class GeoSmsManager {
         }
     }
 
+    public WebSms getWebSmsManager(){
+        return webSmsManager;
+    }
+
     public void saveDraft(SMS sms){
 
     }

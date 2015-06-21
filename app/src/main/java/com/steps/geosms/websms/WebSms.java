@@ -21,7 +21,7 @@ public interface WebSms {
     }
 
 
-    void updateBalance();
+    boolean updateBalance();
 
     boolean authenticate();
 

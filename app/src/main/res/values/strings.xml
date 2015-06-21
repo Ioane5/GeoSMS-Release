@@ -88,4 +88,7 @@
     <string name="resend_request_body">Do you want to Resend?</string>
     <string name="show_balance">Show balance</string>
     <string name="balance">Balance</string>
+    <string name="updating_balance">Updating balance</string>
+    <string name="balance_updated">Updated</string>
+    <string name="error_balance_update">Could\'t check Balance</string>
 </resources>

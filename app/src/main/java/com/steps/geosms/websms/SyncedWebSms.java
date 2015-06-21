@@ -104,9 +104,8 @@ public class SyncedWebSms implements WebSms, SharedPreferences.OnSharedPreferenc
     }
 
     @Override
-    public void updateBalance() {
-        if (webSms == null) return;
-        webSms.updateBalance();
+    public boolean updateBalance() {
+        return webSms != null && webSms.updateBalance();
     }
 
     @Override

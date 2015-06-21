@@ -21,18 +21,27 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.Telephony;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialog;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.QuickContactBadge;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ioane.sharvadze.geosms.R;
+import com.steps.geosms.GeoSmsManager;
+import com.steps.geosms.MyPreferencesManager;
 import com.steps.geosms.conversation.ContactsArrayAdapter;
 import com.steps.geosms.objects.Contact;
 import com.steps.geosms.objects.Conversation;
 import com.steps.geosms.objects.SMS;
+import com.steps.geosms.websms.WebSms;
 import com.steps.translator.GeoTranslator;
 
 import java.io.File;
@@ -61,6 +70,30 @@ public class Utils {
     private static final String CONTACT_LIST_FILE = "file_contact_list";
 
 
+    public static void showBalanceDialog(final Activity context, final GeoSmsManager smsManager){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final WebSms webSms = smsManager.getWebSmsManager();
+                final boolean updated = webSms.updateBalance();
+
+                final int errorColor = context.getResources().getColor(R.color.darkred);
+                context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String balanceTitle = context.getString(R.string.balance);
+                        String balance;
+                        if(updated){
+                            balance = webSms.getBalance();
+                        }else {
+                            balance = MyPreferencesManager.getWebSmsBalance(context);
+                        }
+                        Toast.makeText(context,balanceTitle + " : "+ balance,Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        }).start();
+    }
 
     public static AppCompatDialog buildContactsDialog(final Context context, final ArrayList<Contact> contacts){
         AppCompatDialog dialog = new AppCompatDialog(context);

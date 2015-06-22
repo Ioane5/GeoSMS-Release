@@ -132,15 +132,27 @@ public class Contact implements Serializable{
         return address;
     }
 
-    public void resolveContactImage(Context ctx, int size){
-        if(!TextUtils.isEmpty(photoUri)){
-            this.photo = Utils.getCircleBitmap(Utils.getPhotoFromURI(photoUri, ctx, size));
-        }else if(!TextUtils.isEmpty(getDisplayName())){
-            this.photo = Utils.createTextBitmap(getDisplayName(),size,ctx);
-        }else{
-            this.photo = BitmapFactory.decodeResource(ctx.getResources(), R.mipmap.ic_no_image);
-        }
+    public void resolveContactImage(Context context, int size){
+        photo = resolveContactImage(context,size,getDisplayName(),photoUri);
+    }
 
+    public static Bitmap resolveImageFromText(int size,Context context, String displayName){
+        if(!TextUtils.isEmpty(displayName))
+            return Utils.createTextBitmap(displayName,size,context);
+        return null;
+    }
+
+    public static Bitmap resolveContactImage(Context context, int size, String displayName, String uri){
+        if(TextUtils.isEmpty(uri)){
+            return resolveImageFromText(size, context, displayName);
+        }else {
+            Bitmap bitmap = Utils.getPhotoFromURI(uri, context, size);
+            if(bitmap == null){
+                return resolveImageFromText(size,context,displayName);
+            }else {
+                return Utils.getCircleBitmap(bitmap);
+            }
+        }
     }
 
     public int getId() {

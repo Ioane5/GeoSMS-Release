@@ -361,13 +361,9 @@ public class SmsManagerService extends IntentService {
             String text = c.getString(c.getColumnIndex("body"));
             Contact contact = new Contact(getBaseContext(),address);
 
-            Bitmap photo;
-            if(contact.getPhotoUri() == null){
-                photo =  Utils.createTextBitmap(contact.getDisplayName(),100,getApplicationContext());
-            }else {
-                photo = Utils.getCircleBitmap(Utils.getPhotoFromURI(contact.getPhotoUri(),
-                        getApplicationContext(), 100));
-            }
+            contact.resolveContactImage(getApplicationContext(),100);
+            Bitmap photo = contact.getPhoto();
+
             mBuilder.setLargeIcon(photo)
                     .setSmallIcon(isReceivedType? R.mipmap.ic_sms_received : R.mipmap.ic_sms_failed)
                     .setContentTitle(isReceivedType? contact.getDisplayName() :

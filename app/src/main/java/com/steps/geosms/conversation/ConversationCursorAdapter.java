@@ -58,7 +58,9 @@ public class ConversationCursorAdapter extends CursorAdapter{
             OWNER_IMAGE = Utils.getCircleBitmap(OWNER_IMAGE);
 
         }else{
-            OWNER_IMAGE = Utils.getCircleBitmap(Utils.getPhotoFromURI(ownerPhotoUri,context,60));
+            OWNER_IMAGE = Utils.getPhotoFromURI(ownerPhotoUri,context,60);
+            if(OWNER_IMAGE != null)
+                OWNER_IMAGE = Utils.getCircleBitmap(OWNER_IMAGE);
         }
 
         //mTranslator = new GeoTranslator.load();

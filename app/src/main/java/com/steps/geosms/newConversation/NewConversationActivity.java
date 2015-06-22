@@ -72,7 +72,9 @@ public class NewConversationActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_conversaton);
 
-        getSupportActionBar().setElevation(0);
+        if(getSupportActionBar() != null)
+            getSupportActionBar().setElevation(0);
+
         contactsAdapter = new ContactsCursorAdapter(this, null, 0);
         chosenContacts = new ArrayList<>();
 
@@ -102,15 +104,11 @@ public class NewConversationActivity extends AppCompatActivity implements
                     String photoUri = c.getString(c.getColumnIndex(ContactsContract.PhoneLookup.PHOTO_URI));
                     contact = new Contact(name, photoUri, num, null);
 
-                    if (photoUri != null) {
-                        Bitmap image = Utils.getCircleBitmap(Utils.getPhotoFromURI(photoUri,
-                                getBaseContext(), 40));
-                        contact.setPhoto(image);
-                    }
-
                 } else {
                     contact = new Contact(null, null, phoneNumber, null);
                 }
+                contact.resolveContactImage(NewConversationActivity.this,40);
+
                 if (!Contact.containsByAddress(chosenContacts, contact.getAddress()))
                     selectContact(contact);
                 c.close();
@@ -124,13 +122,6 @@ public class NewConversationActivity extends AppCompatActivity implements
         };
 
         chosenContactsGV = (GridView)findViewById(R.id.gridView);
-
-//        chosenContactsGV.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-//            @Override
-//            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-//                expand(chosenContactsGV);
-//            }
-//        });
 
         chosenContactsAdapter = new ChosenContactsAdapter(getBaseContext(),R.layout.contact_bubble);
         chosenContactsGV.setAdapter(chosenContactsAdapter);
@@ -211,11 +202,8 @@ public class NewConversationActivity extends AppCompatActivity implements
         String photoUri = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI));
 
         Contact contact = new Contact(name,photoUri,phoneNumber,null);
-        if(photoUri != null){
-            Bitmap image = Utils.getCircleBitmap(Utils.getPhotoFromURI(photoUri,
-                    getBaseContext(), 40));
-            contact.setPhoto(image);
-        }
+        contact.resolveContactImage(getBaseContext(),40);
+
         return contact;
     }
     /*
@@ -299,7 +287,19 @@ public class NewConversationActivity extends AppCompatActivity implements
 
         startConversationIcon = menu.findItem(R.id.start_conversation);
         startConversationIcon.setVisible(false);
-        return super.onCreateOptionsMenu(menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        startConversationIcon = menu.findItem(R.id.start_conversation);
+        if(startConversationIcon == null)
+            return false;
+        if(chosenContacts != null && chosenContacts.size() > 0)
+            startConversationIcon.setVisible(true);
+        else
+            startConversationIcon.setVisible(false);
+        return true;
     }
 
     @Override
@@ -398,12 +398,7 @@ public class NewConversationActivity extends AppCompatActivity implements
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Contact contact = (Contact) contactsAdapter.getItem(position);
-        if(contact.getPhotoUri() != null && contact.getPhoto() == null){
-            Bitmap image = Utils.getCircleBitmap(Utils.getPhotoFromURI(contact.getPhotoUri(),
-                    getBaseContext(), 40));
-            contact.setPhoto(image);
-        }
-
+        contact.resolveContactImage(NewConversationActivity.this,40);
         if(!Contact.containsByAddress(chosenContacts, contact.getAddress())){
             selectContact(contact);
         }else {

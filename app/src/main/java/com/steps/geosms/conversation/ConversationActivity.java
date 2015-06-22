@@ -379,7 +379,7 @@ public class ConversationActivity extends MyActivity implements LoaderManager.Lo
                 return;
             for(Contact c : contacts){
                 if(c.getPhotoUri() != null)
-                    c.setPhoto(Utils.getCircleBitmap(Utils.getPhotoFromURI(c.getPhotoUri(), getBaseContext(), 50)));
+                    c.resolveContactImage(getBaseContext(),50);
             }
         }catch (Exception e){
             e.printStackTrace();

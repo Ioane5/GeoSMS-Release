@@ -12,3 +12,8 @@ GeoSMS has several advantages over other SMS applications:
 * Georgian and English interface.
 Note that this application is still beta. If you find some bugs or undefined behavior please report at : report.geosms@gmail.com
 We will provide many many useful options.
+
+<a href="https://play.google.com/store/apps/details?id=com.steps.geosms">
+  <img alt="Android app on Google Play"
+       src="https://developer.android.com/images/brand/en_app_rgb_wo_60.png" />
+</a>
